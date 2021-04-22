@@ -1,0 +1,375 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页
+		{
+			"path": "pages/home/index",
+			"style": {
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/upOrder/order",
+			"style": {
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/upOrder/cancelledRecorded",
+			"style": {
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/upOrder/cancelledList",
+			"style": {
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/upOrder/cancelledDetails",
+			"style": {
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/theOrder/order",
+			"style": {
+				"navigationStyle": "custom", //custom
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/agreement/agreement",
+			"style": {
+				"navigationStyle": "custom", //custom
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/myUser/about",
+			"style": {
+				"navigationStyle": "custom", //custom
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/banner/bannerList",
+			"style": {
+				"navigationStyle": "custom", //custom
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/myUser/codeGg",
+			"style": {
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/myUser/codeGgs",
+			"style": {
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/banner/bannerDetails",
+			"style": {
+				"navigationStyle": "custom" ,//custom
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/verificationCode/verificationCode",
+			"style": {
+				"navigationStyle": "custom" //custom
+			}
+		},
+		{
+			"path": "pages/verificationCode/verificationCodeg",
+			"style": {
+				"navigationStyle": "custom" //custom
+			}
+		},
+		{
+			"path": "pages/myUser/Deposit",
+			"style": {
+				"navigationStyle": "custom" //custom
+			}
+		},
+		{
+			"path": "pages/TopupWithdrawal/withdrawalDateils",
+			"style": {
+				"navigationStyle": "custom" //custom
+			}
+		},
+		{
+			"path": "pages/TopupWithdrawal/TopupDateils",
+			"style": {
+				"navigationStyle": "custom" //custom
+			}
+		},
+		
+		{
+			"path": "pages/myUser/Accredited",
+			"style": {
+				"navigationStyle": "custom" //custom
+			}
+		},
+		{
+			"path": "pages/myUser/email",
+			"style": {
+				"navigationStyle": "custom" //custom
+			}
+		},
+		{
+			"path": "pages/upOrder/orderPayment",
+			"style": {
+				"navigationStyle": "custom"
+				// "app-plus": {
+				// 	"titleNView": {
+				// 		"type": "default",
+				// 		"buttons": [{
+				// 			"text": "联系卖家",
+				// 			"fontSize": "14",
+				// 			"color": "#06B572",
+				// 			"float": "right",
+				// 			"width": "auto"
+				// 		}]
+				// 	}
+				// }
+			}
+		},
+		{
+			"path": "pages/upOrder/orderSatus",
+			"style": {
+				"navigationStyle": "custom"
+				// "app-plus": {
+				// 	"titleNView": {
+				// 		"type": "custom",
+				// 		"buttons": [{
+				// 			"text": "联系买家",
+				// 			"fontSize": "14",
+				// 			"color": "#06B572",
+				// 			"float": "right",
+				// 			"width": "auto"
+				// 		}]
+				// 	}
+				// }
+			}
+		},
+		{
+			"path": "pages/upOrder/orderSuccess",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"type": "custom"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/collection/collection",
+			"style": {
+				"enablePullDownRefresh": true,
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/myUser/myUser",
+			"style": {
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/myUser/userAccount",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/myUser/userPhone",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/myUser/userLogin",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/myUser/userMoeny",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/myUser/setUp",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/TopupWithdrawal/TopupWithdrawal",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/TopupWithdrawal/withdrawalList",
+			"style": {
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/TopupWithdrawal/TopupList",
+			"style": {
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/TopupWithdrawal/Topup",
+			"style": {
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/TopupWithdrawal/Withdrawal",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/myUser/language",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/myUser/RealName",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/myUser/userIdcard",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/collection/collectionForm",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},{
+			"path": "pages/collection/collectionForms",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},{
+			"path": "pages/myUser/levelThe",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/myUser/assets",
+			"style": {
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
+			}
+		}
+	],
+	"subPackages": [ //分包加载配置
+		{
+			"root": "pages/loginReg",
+			"pages": [{
+					"path": "login",
+					"style": {
+						"navigationStyle": "custom" //custom
+					}
+				},
+				{
+					"path": "registration",
+					"style": {
+						"navigationStyle": "custom"
+					}
+				},
+				{
+					"path": "forgetPassword",
+					"style": {
+						"navigationStyle": "custom"
+					}
+				}
+			]
+		}
+	],
+	"globalStyle": { //设置默认页面的窗口表现
+		"navigationBarTextStyle": "black", //导航栏标题颜色及状态栏前景颜色，仅支持 black/white
+		"navigationBarTitleText": "", //导航栏标题文字内容
+		"navigationBarBackgroundColor": "#fff", //导航栏背景颜色（同状态栏背景色）
+		"backgroundColor": "#15172D" //下拉显示出来的窗口的背景色
+	},
+	// "condition" : { //模式配置，仅开发期间生效
+	// 	"current": 0, //当前激活的模式(list 的索引项)
+	// 	"list": [
+	// 		{
+	// 			"name": "", //模式名称
+	// 			"path": "", //启动页面，必选
+	// 			"query": "" //启动参数，在页面的onLoad函数里面得到
+	// 		}
+	// 	]
+	// },
+	"tabBar": { //设置底部 tab 的表现
+		"color": "#bfbfbf",
+		"selectedColor": "#06B572",
+		"borderStyle": "black",
+		"backgroundColor": "#fff",
+		"list": [{
+				"pagePath": "pages/home/index",
+				"iconPath": "static/tabbar/tabbar1.png",
+				"selectedIconPath": "static/tabbar/tabbar1_cur.png",
+				"text": "首页"
+			},
+
+			{
+				"pagePath": "pages/upOrder/order",
+				"iconPath": "static/tabbar/tabbar2.png",
+				"selectedIconPath": "static/tabbar/tabbar2_cur.png",
+				"text": "挂单"
+			},
+			{
+				"pagePath": "pages/theOrder/order",
+				"iconPath": "static/tabbar/tabbar3.png",
+				"selectedIconPath": "static/tabbar/tabbar3_cur.png",
+				"text": "订单"
+			},
+			{
+				"pagePath": "pages/collection/collection",
+				"iconPath": "static/tabbar/tabbar4.png",
+				"selectedIconPath": "static/tabbar/tabbar4_cur.png",
+				"text": "收款账户"
+			},
+			{
+				"pagePath": "pages/myUser/myUser",
+				"iconPath": "static/tabbar/tabbar5.png",
+				"selectedIconPath": "static/tabbar/tabbar5_cur.png",
+				"text": "我的"
+			}
+		]
+	},
+	"easycom": { //组件自动引入规则
+		"autoscan": true ////是否自动扫描组件
+	}
+}

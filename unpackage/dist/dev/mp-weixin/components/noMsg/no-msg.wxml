@@ -1,0 +1,1 @@
+<view class="no_msg"><view class="msg" style="{{'color:'+(color)+';'}}"><text>{{msg||i18n.text1}}</text></view></view>
