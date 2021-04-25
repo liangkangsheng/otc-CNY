@@ -20,15 +20,10 @@
 			<view class="steps">{{ i18n.text8 }}</view>
 			<view class="steps-title">{{ i18n.text9 }}</view>
 			<form @submit="formSubmit" @reset="formReset">
-				<!-- <view class="list-box-share">
-					<view style="width:100%;text-align: center;position: relative;">
-					    {{ i18n.text160 }}  
-						<view class="switchs" style="position: absolute;right: 0;top: 0;">
-							<switch name="switchs" :checked="getUserInfoData.googleVerify ==1?true:false" @change="switch1Change" />
-						</view>
-					</view>
-				</view> -->
-				<view class="code-input-main" v-if="">
+				<view class="code-input-main">
+			     	<codeInput ref="codeInput" @verificationCode="verificationCode" codeType="block" :errorType="errorType" :blockNum="blockNum"></codeInput>
+				</view>
+				<!-- 
 					<view class="inputLine">
 						<input class="input-item" maxlength="1" :value="code[0]" type="number" />
 						<input class="input-item" maxlength="1" :value="code[1]" type="number" />
@@ -38,7 +33,7 @@
 						<input class="input-item" maxlength="1" :value="code[5]" type="number" />
 					</view>
 					<input class="code-input-input" v-model="code" maxlength="6" type="number" name="code" @input="inputEvent" />
-				</view>
+				 -->
 				<button class="uni-btn-vs pull-left" form-type="submit" size="mini">{{ i18n.text180 }}</button>
 			</form>
 		</view>
@@ -50,6 +45,7 @@ import uniIcons from '@/components/uni-icons/uni-icons.vue';
 import api from '@/api/index.js';
 import uQRCode from '@/api/qcode.js'
 import { TOAST, SET_STORAGE, GET_STORAGE, REMOVE_STORAGE } from '@/common/globalConfig.js';
+import codeInput from '@/components/verification-codeInput/verification-codeInput.vue'
 export default {
 	data() {
 		return {
@@ -81,7 +77,10 @@ export default {
 			guge:"",
 			secret:"",
 			getUserInfoData:{},
-			code:""
+			code:"",
+			// 
+			errorType:false,
+			blockNum:6,
 		};
 	},
 	computed: {
@@ -89,7 +88,7 @@ export default {
 			return this.$t('codeGgs');
 		}
 	},
-	components: { uniIcons },
+	components: { uniIcons,codeInput },
 	onLoad() {
 		this.openGoogleVerify()
 	},
@@ -106,6 +105,9 @@ export default {
 		inputEvent(code) {
 			
 		},
+		verificationCode(code){
+			this.code = code;
+		},
 		async formSubmit(e) {
 			var formData = e.detail.value;
 			uni.showLoading({ title: this.$t('about.text5'), mask: true });
@@ -120,6 +122,7 @@ export default {
 				});
 			} else {
 				uni.hideLoading();
+				this.$refs.codeInput.errorType = true
 				uni.showToast({ title: res.errorMessage, icon: 'none' });
 			}
 		},

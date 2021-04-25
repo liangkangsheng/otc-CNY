@@ -8,7 +8,6 @@
 			</view>
 			<view class="box-header option"><view class="head-title"></view></view>
 		</view>
-		<!-- 测试纸 -->
 		<view class="forms-box padding-30">
 			<view class="uni-padding-wrap uni-common-mt form-section" :current="tabIndex" v-show="!tabsOpen">
 				<form @submit="formSubmit" @reset="formReset">
@@ -147,11 +146,11 @@ export default {
 				if (res.code === '000') {
 					uni.hideLoading();
 					SET_STORAGE('phoneAccount',formData.tel);
-					// setTimeout(() => {
-					// 	uni.navigateTo({
-					// 		url: '/pages/verificationCode/verificationCode?tel=' + formData.tel
-					// 	});
-					// }, 1000);
+					setTimeout(() => {
+						uni.navigateTo({
+							url: '/pages/verificationCode/verificationCode?tel=' + formData.tel
+						});
+					}, 1000);
 					if(res.data.isGoogleVerify == "0"){
 						setTimeout(() => {
 							uni.navigateTo({

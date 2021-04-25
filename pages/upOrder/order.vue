@@ -34,6 +34,7 @@
 						<view class="switch"><switch name="switch" :checked="checked" @change="switch1Change" /></view>
 					</view>
 					<view class="pay-box">
+						<!-- v-if="index == '0'" -->
 						<view
 							class="pay-list"
 							:class="{ 'pay-active': tabBarsPayPriceArr.includes(tab.id) }"
@@ -118,6 +119,7 @@
 							<view class="switch"><switch name="switchs" :checked="checkeds" @change="switch2Change" /></view>
 						</view>
 						<view class="pay-box">
+							<!-- v-if="index == '0'" -->
 							<view
 								class="pay-list pay-lists"
 								:class="{ 'pay-activeS': tabBarsPayPriceArrS.includes(tab.id) }"
@@ -125,7 +127,7 @@
 								v-for="(tab, index) in tabBarsPayPrice"
 								:key="tab.id"
 								:data-current="index"
-							
+								
 							>
 								{{ tab.name }}
 								<view class="checkmarkempty"><uni-icons type="checkmarkempty" size="22" class="form-clear-icons" color="#fff"></uni-icons></view>
@@ -212,14 +214,14 @@ export default {
 				zhifubao: false
 			},
 			payment: {
-				aliPayLimit: '', //支付宝付款限额
-				aliPayPrice: '', //支付宝付款单价
+				aliPayLimit: '', //Momo付款限额
+				aliPayPrice: '', //Momo付款单价
 				bankPayLimit: '', //银行卡付款限额
 				bankPayPrice: '', //银行卡付款单价
 				buyCount: '' //购买数量
 			},
 			sell: {
-				aliPayPrice: '', //支付宝收款单价
+				aliPayPrice: '', //Momo收款单价
 				bankPayPrice: '', //银行卡收款单价
 				saleCount: '' //出售数量
 			},
@@ -366,20 +368,47 @@ export default {
 		},
 		//自动挂单购买
 		async autoBuyFunftion(status) {
-
 			const system_info = GET_STORAGE('system_info');
 			uni.showLoading({ title: this.$t('orderUp.text31'), mask: true });
-			var obj = {
-				buyCount: this.payment.buyCount,
-				// aliPayLimit: this.payment.aliPayLimit,
-				//aliPayPrice: this.payment.aliPayPrice,
-				lang: system_info.language,
-				payType: this.tabBarsPayPriceArr.toString(),
-				buyCount: this.payment.buyCount,
-				bankPayLimit: this.payment.bankPayLimit,
-				bankPayPrice: this.payment.bankPayPrice,
-				status: status
-			};
+			var obj = {}
+			if(this.tabBarsPayPriceArr.toString() == "1"){
+				obj = {
+					buyCount: this.payment.buyCount,
+					aliPayLimit: this.payment.aliPayLimit,
+					aliPayPrice: this.payment.aliPayPrice,
+					lang: system_info.language,
+					payType: this.tabBarsPayPriceArr.toString(),
+					buyCount: this.payment.buyCount,
+					bankPayLimit:"",
+					bankPayPrice:"",
+					status: status
+				};
+			}else if(this.tabBarsPayPriceArr.toString() == "2"){
+				obj = {
+					buyCount: this.payment.buyCount,
+					aliPayLimit: "",
+					aliPayPrice: "",
+					lang: system_info.language,
+					payType: this.tabBarsPayPriceArr.toString(),
+					buyCount: this.payment.buyCount,
+					bankPayLimit: this.payment.bankPayLimit,
+					bankPayPrice: this.payment.bankPayPrice,
+					status: status
+				};
+			}else if(this.tabBarsPayPriceArr.toString() == "1,2" || this.tabBarsPayPriceArr.toString() == "2,1"){
+				obj = {
+					buyCount: this.payment.buyCount,
+					aliPayLimit: this.payment.aliPayLimit,
+					aliPayPrice: this.payment.aliPayPrice,
+					lang: system_info.language,
+					payType: this.tabBarsPayPriceArr.toString(),
+					buyCount: this.payment.buyCount,
+					bankPayLimit: this.payment.bankPayLimit,
+					bankPayPrice: this.payment.bankPayPrice,
+					status: status
+				};
+			}
+			
 			let res = await api.autoBuyHttp(obj);
 			if (res.code === '000') {
 				uni.hideLoading();
@@ -399,15 +428,36 @@ export default {
 			uni.showLoading({ title: this.$t('orderUp.text31'), mask: true });
 			// system_info.language
 			const system_info = GET_STORAGE('system_info');
-			var obj = {
-				saleCount: this.sell.saleCount,
-				//aliPayPrice: this.sell.aliPayPrice,
-				lang: system_info.language,
-				payType: this.tabBarsPayPriceArrS.toString(),
-				status: status,
-				saleCount: this.sell.saleCount,
-				bankPayPrice: this.sell.bankPayPrice
-			};
+			var obj = {}
+			if(this.tabBarsPayPriceArrS.toString() == "1"){
+				obj = {
+					aliPayPrice: this.sell.aliPayPrice,
+					lang: system_info.language,
+					payType: this.tabBarsPayPriceArrS.toString(),
+					status: status,
+					saleCount: this.sell.saleCount,
+					bankPayPrice: ""
+				};
+			}else if(this.tabBarsPayPriceArrS.toString() == "2"){
+				obj = {
+					// saleCount: this.sell.saleCount,
+					aliPayPrice: "",
+					lang: system_info.language,
+					payType: this.tabBarsPayPriceArrS.toString(),
+					status: status,
+					saleCount: this.sell.saleCount,
+					bankPayPrice: this.sell.bankPayPrice
+				};
+			}else if(this.tabBarsPayPriceArrS.toString() == "1,2" || this.tabBarsPayPriceArrS.toString() == "2,1"){
+				obj = {
+					aliPayPrice: this.sell.aliPayPrice,
+					lang: system_info.language,
+					payType: this.tabBarsPayPriceArrS.toString(),
+					status: status,
+					saleCount: this.sell.saleCount,
+					bankPayPrice: this.sell.bankPayPrice
+				};
+			}
 			let res = await api.autoSaleHttp(obj);
 			if (res.code === '000') {
 				uni.hideLoading();
@@ -432,8 +482,8 @@ export default {
 			if (res.code === '000') {
 				uni.hideLoading();
 				this.payment.buyCount = res.data.buyCount;
-				// this.payment.aliPayLimit = res.data.aliPayLimit;
-				// this.payment.aliPayPrice = res.data.aliPayPrice;
+				this.payment.aliPayLimit = res.data.aliPayLimit;
+				this.payment.aliPayPrice = res.data.aliPayPrice;
 				this.payment.buyCount = res.data.buyCount;
 				this.payment.bankPayLimit = res.data.bankPayLimit;
 				this.payment.bankPayPrice = res.data.bankPayPrice;
@@ -507,7 +557,7 @@ export default {
 				this.sellShow.yinhangka = false;
 			}
 		},
-		//购买 支付宝与银行卡
+		//购买 Momo与银行卡
 		tabBarPayPrice(index) {
 			if (this.tabBarsPayPriceArr.includes(index)) {
 				this.tabBarsPayPriceArr = this.tabBarsPayPriceArr.filter(function(ele) {

@@ -12,15 +12,11 @@
 		</view>
 		<view class="code-input-main">
 			<view class="inputLine">
-				<input class="input-item" maxlength="1" :value="code[0]" type="number" />
-				<input class="input-item" maxlength="1" :value="code[1]" type="number" />
-				<input class="input-item" maxlength="1" :value="code[2]" type="number" />
-				<input class="input-item" maxlength="1" :value="code[3]" type="number" />
-				<input class="input-item" maxlength="1" :value="code[4]" type="number" />
-				<input class="input-item" maxlength="1" :value="code[5]" type="number" />
+				<codeInput ref="codeInput" @verificationCode="verificationCode" codeType="block" :errorType="errorType" :blockNum="blockNum"></codeInput>
 			</view>
-			<input @input="inputEvent" class="code-input-input" v-model="code" maxlength="6" type="number" />
+			<!-- <input @input="inputEvent" class="code-input-input" v-model="code" maxlength="6" type="number" /> -->
 		</view>
+		<!-- 上传 -->
 		<!-- <view class="code-button" @click="getCodeButton">
 			<text class="uni-panel-text code-btn">{{ countdown.loginTime == 60 ? countdown.countTitle : countdown.loginTime + 's' + this.$t('verificationCode.text3') }}</text>
 		</view> -->
@@ -31,6 +27,7 @@
 <script>
 import md5 from '../../common/md5.js';
 import uniIcons from '@/components/uni-icons/uni-icons.vue';
+import codeInput from '@/components/verification-codeInput/verification-codeInput.vue'
 import api from '@/api/index.js';
 import { TOAST, SET_STORAGE, GET_STORAGE, REMOVE_STORAGE } from '@/common/globalConfig.js';
 export default {
@@ -45,7 +42,10 @@ export default {
 				countTitle: this.$t('verificationCode.text4'),
 				loginTimeNum: 0
 			},
-			homeShow: false
+			homeShow: false,
+			//
+			errorType:false,
+			blockNum:6,
 		};
 	},
 	computed: {
@@ -53,7 +53,7 @@ export default {
 			return this.$t('verificationCode');
 		}
 	},
-	components: { uniIcons },
+	components: { uniIcons,codeInput },
 	onLoad(option) {
 		uni.setNavigationBarTitle({
 			title: ''
@@ -108,9 +108,7 @@ export default {
 		// 		uni.showToast({ title: res.errorMessage, icon: 'none' });
 		// 	}
 		// },
-		async inputEvent(code) {
-			if (code.detail.value.length == 6) {
-				var smsVerifyCode = code.detail.value;
+		async verificationCode(code) {
 				const system_info = GET_STORAGE('system_info');
 				// let res = await api.verifySmsCodeHttp({
 				// 	smsType: '0',
@@ -123,7 +121,7 @@ export default {
 					let res = await api.getUserToken({
 						loginType: '3',
 						phoneAccount: this.phones,
-						googleVerifyCode: smsVerifyCode
+						googleVerifyCode: code
 					});
 					if (res.code === '000') {
 						uni.hideLoading();
@@ -136,10 +134,12 @@ export default {
 						// }, 1000);
 					} else if (res.code === '500') {
 						uni.hideLoading();
+						this.$refs.codeInput.errorType = true
 						this.$alert(this.$t('verificationCode.text600'));
 					} else {
 						uni.hideLoading();
 						this.homeShow = false;
+						this.$refs.codeInput.errorType = true
 						this.$alert(res.errorMessage);
 					}
 				// } else if (res.code === '500') {
@@ -149,10 +149,6 @@ export default {
 				// 	uni.hideLoading();
 				// 	this.$alert(res.errorMessage);
 				// }
-			} else {
-				this.homeShow = false;
-				uni.hideLoading();
-			}
 		},
 		gohome() {
 			uni.showLoading({ title: this.$t('verificationCode.text7'), mask: true });

@@ -8,7 +8,6 @@
 			</view>
 			<view class="box-header option"><view class="head-title"></view></view>
 		</view>
-		<!-- 测试 -->
 		<view class="forms-box">
 			<view class="uni-padding-wrap uni-common-mt form-section">
 				<form @submit="formSubmit" @reset="formReset">
