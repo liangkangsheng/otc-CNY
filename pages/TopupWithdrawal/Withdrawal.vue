@@ -112,8 +112,12 @@ export default {
 			tabBarPay: [
 				{
 					name: 'ERC20',
+					id: '2'
+				},
+				{
+					name: 'TRC20',
 					id: '1'
-				}
+				},
 			],
 			isPayPwd: GET_STORAGE('isPayPwd'),
 			tabIndexPay: 1,
@@ -293,7 +297,7 @@ export default {
 		
 			const system_info = GET_STORAGE('system_info');
 			let res = await api.walletCash({
-				agreeType: 'ERC20', //OMNI ERC20
+				agreeType: this.tabIndexPay == 1?'TRC20':"ERC20", //OMNI ERC20
 				coinSymbol: 'USDT',
 				lang: system_info.language,
 				money: Number(this.drawal),
@@ -437,7 +441,7 @@ export default {
 		/* #endif */
 		flex-wrap: nowrap;
 		text-align: center;
-		margin-right: 30rpx;
+		margin-left: 30rpx;
 		color: #999;
 		border: 1px solid #999;
 		padding: 10rpx 30rpx;
