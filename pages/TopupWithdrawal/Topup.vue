@@ -91,7 +91,7 @@ export default {
 		}, 300);
 	},
 	methods: {
-		// 
+		// 充值提现
 		async getMinRechargeFunction(){
 			let res = await api.getMinRechargeHttp({
 

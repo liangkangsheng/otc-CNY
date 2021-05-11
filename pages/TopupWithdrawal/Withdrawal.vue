@@ -161,7 +161,7 @@ export default {
 		this.getUserInfoFunction();
 		this.getSysConfigListFunftion()
 	},
-	// 
+	// 充值提现
 	mounted() {},
 	methods: {
 		navBack() {
