@@ -119,6 +119,7 @@ export default {
 					id: '1'
 				},
 			],
+			
 			isPayPwd: GET_STORAGE('isPayPwd'),
 			tabIndexPay: 1,
 			tabsOpenPay: false,

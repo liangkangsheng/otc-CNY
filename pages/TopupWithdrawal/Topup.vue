@@ -59,6 +59,7 @@ export default {
 					id: '2'
 				}
 			],
+			
 			tabIndexPay: 1,
 			tabsOpenPay: false,
 			imageUrl: '',
