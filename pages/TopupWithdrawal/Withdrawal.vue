@@ -109,14 +109,13 @@ export default {
 	data() {
 		return {
 			id: '',
-			// 新增
 			tabBarPay: [
 				{
-					name: 'ERC20',
+					name: 'TRC20',
 					id: '2'
 				},
 				{
-					name: 'TRC20',
+					name: 'ERC20',
 					id: '1'
 				},
 			],
@@ -162,6 +161,7 @@ export default {
 		this.getUserInfoFunction();
 		this.getSysConfigListFunftion()
 	},
+	// 
 	mounted() {},
 	methods: {
 		navBack() {
@@ -182,7 +182,8 @@ export default {
 		async walletDataFunftion() {
 			uni.showLoading({ title: this.$t('Withdrawal.text19'), mask: true });
 			let res = await api.walletDataHttp({
-				coinSymbol: 'USDT'
+				coinSymbol: 'USDT',
+				trocotol: this.tabIndexPay == 2?'TRC20':"ERC20", //OMNI ERC20
 			});
 			if (res.code === '000') {
 				uni.hideLoading();
@@ -298,7 +299,7 @@ export default {
 		
 			const system_info = GET_STORAGE('system_info');
 			let res = await api.walletCash({
-				agreeType: this.tabIndexPay == 1?'TRC20':"ERC20", //OMNI ERC20
+				agreeType: this.tabIndexPay == 2?'TRC20':"ERC20", //OMNI ERC20
 				coinSymbol: 'USDT',
 				lang: system_info.language,
 				money: Number(this.drawal),
@@ -331,6 +332,7 @@ export default {
 			}
 			this.tabIndexPay = index;
 			this.tabsOpenPay = !this.tabsOpenPay;
+			this.walletDataFunftion()
 		},
 		addressButton() {
 			uni.getClipboardData({

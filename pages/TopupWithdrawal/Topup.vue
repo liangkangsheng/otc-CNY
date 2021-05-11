@@ -91,6 +91,7 @@ export default {
 		}, 300);
 	},
 	methods: {
+		// 
 		async getMinRechargeFunction(){
 			let res = await api.getMinRechargeHttp({
 
