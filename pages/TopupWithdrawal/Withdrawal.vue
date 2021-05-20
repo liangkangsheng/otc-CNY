@@ -111,13 +111,9 @@ export default {
 			id: '',
 			tabBarPay: [
 				{
-					name: 'TRC20',
-					id: '2'
-				},
-				{
 					name: 'ERC20',
 					id: '1'
-				},
+				}
 			],
 			isPayPwd: GET_STORAGE('isPayPwd'),
 			tabIndexPay: 1,
@@ -161,7 +157,6 @@ export default {
 		this.getUserInfoFunction();
 		this.getSysConfigListFunftion()
 	},
-	// 充值提现
 	mounted() {},
 	methods: {
 		navBack() {
@@ -182,8 +177,7 @@ export default {
 		async walletDataFunftion() {
 			uni.showLoading({ title: this.$t('Withdrawal.text19'), mask: true });
 			let res = await api.walletDataHttp({
-				coinSymbol: 'USDT',
-				trocotol: this.tabIndexPay == 2?'TRC20':"ERC20", //OMNI ERC20
+				coinSymbol: 'USDT'
 			});
 			if (res.code === '000') {
 				uni.hideLoading();
@@ -204,8 +198,8 @@ export default {
 			});
 			if (res.code === '000') {
 				uni.hideLoading();
-				this.walletDataNum.configValmin = res.data[5].configVal;
-				this.walletDataNum.configValmax = res.data[6].configVal;
+				this.walletDataNum.configValmin = 2;
+				this.walletDataNum.configValmax = 5;
 			
 			} else if(res.code === "500"){
 				uni.hideLoading();
@@ -299,7 +293,7 @@ export default {
 		
 			const system_info = GET_STORAGE('system_info');
 			let res = await api.walletCash({
-				agreeType: this.tabIndexPay == 2?'TRC20':"ERC20", //OMNI ERC20
+				agreeType: 'ERC20', //OMNI ERC20
 				coinSymbol: 'USDT',
 				lang: system_info.language,
 				money: Number(this.drawal),
@@ -332,7 +326,6 @@ export default {
 			}
 			this.tabIndexPay = index;
 			this.tabsOpenPay = !this.tabsOpenPay;
-			this.walletDataFunftion()
 		},
 		addressButton() {
 			uni.getClipboardData({
@@ -382,8 +375,9 @@ export default {
 			// 发送验证码
 			uni.showLoading({ title: this.$t('Withdrawal.text33'), mask: true });
 			const system_info = GET_STORAGE('system_info');
-			let res = await api.Login({
+			let res = await api.sendSmsCode({
 				phone: GET_STORAGE('phoneAccount'),
+				nationCode: '86',
 				smsType: 4,
 				lang: system_info.language
 			});
@@ -444,7 +438,7 @@ export default {
 		/* #endif */
 		flex-wrap: nowrap;
 		text-align: center;
-		margin-left: 30rpx;
+		margin-right: 30rpx;
 		color: #999;
 		border: 1px solid #999;
 		padding: 10rpx 30rpx;

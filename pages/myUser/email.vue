@@ -11,7 +11,7 @@
 		</view>
 
 		<view class="content">
-			<view class="account-boxs height" v-if="GETemail==null">
+			<view class="account-boxs height" v-if="GETemail==''">
 				<form @submit="formSubmit" @reset="formReset">
 					<view class="form-input border-bottom account-list">
 						<label for="">{{ i18n.text013 }}</label>

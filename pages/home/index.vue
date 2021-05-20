@@ -1,14 +1,14 @@
 <template>
 	<view class="content">
-		<view class="status_bar"><view class="top_view"></view></view>
+		<!-- <view class="status_bar"><view class="top_view"></view></view>
 		<view class="page-top-head flex-row">
-			<view class="box-header"></view>
+			<view class="box-header margin-left"><uni-icons type="arrowleft" size="24" style="color: #000;" @click="navBack"></uni-icons></view>
 			<view class="box-header">
 				<view class="head-title">{{ $t('index.text26') }}</view>
 			</view>
 			<view class="box-header option"><view class="head-title"></view></view>
-		</view>
-		<view class="pages-mid-notes flex-row bdb-1px">
+		</view> -->
+		<view class="pages-mid-notes flex-row bdb-1px borderBottom" style="">
 			<uni-icons type="sound-filled" size="18" class="notes-icon" color="#999"></uni-icons>
 			<swiper vertical circular autoplay class="notes-scroll"  v-if="noticeList.length>0"  @click.stop="toSecondPage()">
 				<swiper-item v-for="(item, index) in noticeList" :key="index">
@@ -22,132 +22,183 @@
 			</swiper>
 			<view class="arrow-right"></view>
 		</view>
-		<view class="header padding-30">
-			<view
-				v-for="(tab, index) in tabBarPay"
-				:key="tab.id"
-				class="uni-tab-item-pay"
-				:class="tabIndexPay == index ? 'uni-tab-item-border-active-pay' : ''"
-				:id="tab.id"
-				:data-current="index"
-				@click="ontabtapPay">
-				<text class="text-b" :class="tabIndexPay == index ? 'uni-tab-item-title-active-pay' : ''">{{ tab.name }}</text>
-			</view>
-		</view>
-		<view class="pay-true padding-30" v-show="!tabsOpenPay">
-			<view :current="tabIndex" v-show="!tabsOpen">
-				<view class="form-input">
-					<text class="pay-actives">￥</text>
-					<input type="number" :placeholder="i18n.text1" v-model="BarPayPrice" @input="changeInput(BarPayPrice, '1')" />
+		<!-- 新增 样式start -->
+		<view class="height">
+			<view class="header padding-30 pull-left">
+				<view
+					v-for="(tab, index) in tabBarPay"
+					:key="tab.id"
+					class="uni-tab-item-pay"
+					:class="tabIndexPay == index ? 'uni-tab-item-border-active-pay' : ''"
+					:id="tab.id"
+					:data-current="index"
+					@click="ontabtapPay">
+					<text class="text-b" :class="tabIndexPay == index ? 'uni-tab-item-title-active-pay' : ''">{{ tab.name }}</text>
 				</view>
 			</view>
-			<view :current="tabIndex" v-show="tabsOpen">
-				<view class="form-input" style="padding-left:10rpx;">
-					<input type="number" :placeholder="i18n.text2" v-model="BarPayPriceNum" @input="changeInput(BarPayPriceNum, '2')" />
+			<view class="pull-right header SIZE" @click="navTo('/pages/theOrder/orderList')">
+				<image src="../../static/icon/order_icon.png" mode="" class="pull-left" style="width:30rpx;height: 26rpx;margin-top: 8rpx;margin-right: 8rpx;"></image>
+				{{i18n.text104}}
+			</view>
+		</view>
+		
+		
+		
+		<view class="homeIndex">
+			<!-- 我要买 -->
+			<view class="pay-true" v-show="!tabsOpenPay">
+				<view class="title-p">{{ i18n.text03 }}</view>
+				<view class="form-inputs">
+					<input type="number" placeholder="0.00" v-model="BarPayPrice" @input="changeInput(BarPayPrice, '1')" />
+					<text class="input-Eos">CNY</text>
+				</view>
+				<view class="title-p">{{ i18n.text04 }}</view>
+				<view class="form-inputs">
+					<input type="number" placeholder="0.00" v-model="BarPayPrice" @input="changeInput(BarPayPrice, '1')" />
 					<text class="input-Eos">USDT</text>
 				</view>
-			</view>
-			<view class="help">
-				<text class="text-eos">
-					{{ i18n.text3 }}：
-					<text class="text-number">{{ unitPrice || 0 }} CNY/USDT</text>
-				</text>
-			</view>
-			<view class="switch-pay">
-				<uni-icons type="refresh" size="14" style="color: #06B572;"></uni-icons>
-				<text @click="tabsOpenButton" v-show="!tabsOpen">{{ i18n.text5 }}</text>
-				<text @click="tabsOpenButton" v-show="tabsOpen">{{ i18n.text4 }}</text>
-			</view>
-			<br />
-			<view class="uni-font-size">{{ i18n.text6 }}</view>
-			<view class="pay-box">
-				<view
-					class="pay-list"
-					:class="Price == index ? 'pay-active' : ''"
-					@click="tabBarPayPrice"
-					v-for="(tab, index) in tabBarsPayPrice"
-					:key="tab.id"
-					:data-current="index">
-					{{ tab.name }}
-					<view class="checkmarkempty"><uni-icons type="checkmarkempty" size="22" class="form-clear-icons" color="#fff"></uni-icons></view>
+				<view class="help height">
+					<text class="text-eos">
+						{{ i18n.text3 }}：
+						<text class="text-number">{{ unitPrice || 0 }} CNY/USDT</text>
+					</text>
 				</view>
+				<view class="height priceStatus">
+					<view class="title-p pull-left">{{i18n.text010}}</view>
+					<view class="paySatus height pull-right" @click="handleShowShare"  style="margin-right: 30rpx;">
+						<uni-icons type="arrowdown" size="14" color="#333" class="pull-right" style="margin-top: 4rpx;"></uni-icons>
+					</view>
+
+					<view class="paySatus height pull-right" @click="handleShowShare(1)" style="margin-right: 10rpx;" v-if="matchBuyInfo.PayIndex == 1">
+						<image src="../../static/icon/alipay_icon.png" mode="" class="icon-img pull-left"></image>
+						<text class="uni-font-size text-users">{{ i18n.text06 }}</text>
+					</view>
+					<view class="paySatus height pull-right" @click="handleShowShare(1)" style="margin-right: 10rpx;" v-if="matchBuyInfo.PayIndex == 2">
+						<image src="../../static/icon/pay_icon3.png" mode="" class="icon-img"></image>
+						<text class="uni-font-size text-users">{{ i18n.text07 }}</text>
+					</view>
+					<view class="paySatus height pull-right" @click="handleShowShare(1)" style="margin-right: 10rpx;" v-if="matchBuyInfo.PayIndex == 3">
+						<image src="../../static/icon/wechat_icon.png" mode="" class="icon-img"></image>
+						<text class="uni-font-size text-users">{{ i18n.text08 }}</text>
+					</view>
+					
+					
+					
+					<!-- <view class="paySatus height pull-right" @click="handleShowShare" style="margin-right: 10rpx;">
+						<image src="../../static/icon/alipay_icon.png" mode="" class="icon-img pull-left"></image>
+						<text class="uni-font-size text-users">{{ i18n.text06 }}</text>
+					</view>
+					<view class="paySatus height pull-right" @click="handleShowShare">
+						<image src="../../static/icon/pay_icon3.png" mode="" class="icon-img"></image>
+						<text class="uni-font-size text-users">{{ i18n.text07 }}</text>
+					</view>
+					<view class="paySatus height pull-right" @click="handleShowShare">
+						<image src="../../static/icon/wechat_icon.png" mode="" class="icon-img"></image>
+						<text class="uni-font-size text-users">{{ i18n.text08 }}</text>
+					</view> -->
+				</view>
+				<view class="button" @click="tabBarPayButton(1)">{{ i18n.text10 }} USDT</view>
 			</view>
-			<view class="list">
-				<view class="pays-list">
-					<text class="uni-font-size">{{ i18n.text7 }}：</text>
-					<text class="pay-price">{{ matchBuyInfo.price || 0 }} CNY/USDT</text>
+			<!-- 我要卖 -->
+			<view class="pay-true" v-show="tabsOpenPay">
+				<view class="title-p">{{ i18n.text03 }}</view>
+				<view class="form-inputs">
+					<input type="number" placeholder="0.00" v-model="BarPayPrice" @input="changeInput(BarPayPrice, '1')" />
+					<text class="input-Eos-2" @click="setMaxForSale">{{$t('index.text43')}}</text>
+					<text class="input-Eos-1" style="color: #de6334;">USDT</text>
 				</view>
-				<view class="pays-list">
-					<text class="uni-font-size">{{ i18n.text8 }}：</text>
-					<text class="pay-prices">{{ matchBuyInfo.count || 0 }} USDT</text>
+				<view class="title-p">{{ i18n.text04 }}</view>
+				<view class="form-inputs" style="padding-right: 0;">
+					<input type="number" placeholder="0.00" v-model="BarPayPrice" @input="changeInput(BarPayPrice, '1')" />
+					<text class="input-Eos-1" style="color: #de6334;right: 0">CNY</text>
 				</view>
-				<view class="pays-list">
-					<text class="uni-font-size">{{ i18n.text9 }}：</text>
-					<text class="pay-prices">{{ matchBuyInfo.buyAmount || 0 }} CNY</text>
+				<view class="help height">
+					<text class="text-eos">
+						{{ i18n.text3 }}：
+						<text class="text-number">{{ unitPrice || 0 }} CNY/USDT</text>
+					</text>
 				</view>
+				<view class="height priceStatus">
+					<view class="title-p pull-left">{{i18n.text09}}</view>
+					
+					
+					<view class="paySatus height pull-right" @click="handleShowShare"  style="margin-right: 30rpx;">
+						<uni-icons type="arrowdown" size="14" color="#333" class="pull-right" style="margin-top: 4rpx;"></uni-icons>
+					</view>
+					<view class="paySatus height pull-right" @click="handleShowShare(1)" style="margin-right: 10rpx;" v-if="matchSaleInfo.PayIndex == 1">
+						<image src="../../static/icon/alipay_icon.png" mode="" class="icon-img pull-left"></image>
+						<text class="uni-font-size text-users">{{ i18n.text06 }}</text>
+					</view>
+					<view class="paySatus height pull-right" @click="handleShowShare(1)" style="margin-right: 10rpx;" v-if="matchSaleInfo.PayIndex == 2">
+						<image src="../../static/icon/pay_icon3.png" mode="" class="icon-img"></image>
+						<text class="uni-font-size text-users">{{ i18n.text07 }}</text>
+					</view>
+					<view class="paySatus height pull-right" @click="handleShowShare(1)" style="margin-right: 10rpx;" v-if="matchSaleInfo.PayIndex == 3">
+						<image src="../../static/icon/wechat_icon.png" mode="" class="icon-img"></image>
+						<text class="uni-font-size text-users">{{ i18n.text08 }}</text>
+					</view>
+					
+					
+					
+					
+					<!-- <view class="paySatus height pull-right" @click="handleShowShare">
+						<image src="../../static/icon/alipay_icon.png" mode="" class="icon-img pull-left"></image>
+						<text class="uni-font-size text-users">{{ i18n.text06 }}</text>
+					</view>
+					<view class="paySatus height pull-right" @click="handleShowShare">
+						<image src="../../static/icon/pay_icon3.png" mode="" class="icon-img"></image>
+						<text class="uni-font-size text-users">{{ i18n.text07 }}</text>
+					</view>
+					<view class="paySatus height pull-right" @click="handleShowShare">
+						<image src="../../static/icon/wechat_icon.png" mode="" class="icon-img"></image>
+						<text class="uni-font-size text-users">{{ i18n.text08 }}</text>
+					</view> -->
+				</view>
+				<view class="button buttonF" @click="tabBarPayButton(2)">{{ i18n.text20 }} USDT</view>
 			</view>
-			<view class="button" @click="tabBarPayButton(1)">{{ i18n.text10 }} USDT</view>
-			<view class="help">
-				<text class="text-eos">{{ i18n.text21 }}</text><text class="text-eos" @click="agreementButton(2)">{{i18n.text021}}</text>
+			<!-- 底部弹框 -->
+			<view class="share">
+				<view :class="{ 'share-box': shareState }" @click="handleHiddenShare"></view>
+				<view class="share-item" :class="{ 'share-show': shareState }">
+					<view class="list-box-share borderBottom height">
+						<view class="pull-left">{{ i18n.text014 }}</view>
+						<view class="cancel pull-right" @click.stop="handleHiddenShare">{{ i18n.text024 }}</view>
+					</view>
+					<view
+						class="pay-list border-bottom height border-bottom-none"
+						:key="tab.id"
+						:data-current="index"
+						v-for="(tab, index) in tabBarsPayPrice"
+						@click="HiddenShare(index, tab.id, tab.name)"
+					>
+						<image :src="tab.src" mode="" class="icon-img"></image>
+						<text class="uni-font-size text-users">{{ tab.name }}</text> 
+						<view v-if="tabIndexPay == 0">
+							<uni-icons type="checkmarkempty" size="14" :color="tabIndexPay == 0 ? '#06b572' : '#de6334'" class="pull-right" v-if="matchBuyInfo.PayIndex == tab.id"></uni-icons>
+						</view>
+						<view v-if="tabIndexPay == 1">
+							<uni-icons type="checkmarkempty" size="14" :color="tabIndexPay == 0 ? '#06b572' : '#de6334'" class="pull-right" v-if="matchSaleInfo.PayIndex == tab.id"></uni-icons>
+						</view>
+					</view>
+					<!-- <view class="pay-list border-bottom height" @click="HiddenShare(0)">
+						<image src="../../static/icon/alipay_icon.png" mode="" class="icon-img"></image>
+						<text class="uni-font-size text-users">{{ i18n.text06 }}</text>
+						<uni-icons type="checkmarkempty" size="14" color="#06b572" class="pull-right"></uni-icons>
+					</view>
+					<view class="pay-list border-bottom height" @click="HiddenShare(1)">
+						<image src="../../static/icon/pay_icon3.png" mode="" class="icon-img"></image>
+						<text class="uni-font-size text-users">{{ i18n.text07 }}</text>
+						<uni-icons type="checkmarkempty" size="14" color="#06b572" class="pull-right"></uni-icons>
+					</view>
+					<view class="pay-list height" @click="HiddenShare(2)" style="padding-bottom: 0;">
+						<image src="../../static/icon/wechat_icon.png" mode="" class="icon-img"></image>
+						<text class="uni-font-size text-users">{{ i18n.text08 }}</text>
+						<uni-icons type="checkmarkempty" size="14" color="#06b572" class="pull-right"></uni-icons>
+					</view> -->
+				</view>
 			</view>
 		</view>
-		<view class="pay-false padding-30" v-show="tabsOpenPay">
-			<view class="" :current="tabIndex" v-show="!tabsOpenM">
-				<view class="form-input">
-					<text class="pay-actives">￥</text>
-					<input type="number" :placeholder="i18n.text1" v-model="BarPayPrices" @input="changeInput(BarPayPrices, '3')" />
-				</view>
-			</view>
-			<view class="" :current="tabIndex" v-show="tabsOpenM">
-				<view class="form-input" style="padding-left:10rpx;">
-					<input type="number" :placeholder="i18n.text12" v-model="BarPayPriceNums" @input="changeInput(BarPayPriceNums, '4')" />
-					<text class="input-Eos" style="color: #de6334;">USDT</text>
-				</view>
-			</view>
-			<view class="help">
-				<text class="text-eos">
-					USDT参考单价：
-					<text class="text-number">{{ unitPrice || 0 }} CNY/USDT</text>
-				</text>
-			</view>
-			<view class="switch-pay switch-pay2">
-				<uni-icons type="refresh" size="14" style="color: #de6334;"></uni-icons>
-				<text @click="tabsOpenMButton" v-show="!tabsOpenM">{{ i18n.text15 }}</text>
-				<text @click="tabsOpenMButton" v-show="tabsOpenM">{{ i18n.text14 }}</text>
-			</view>
-			<br />
-			<view class="uni-font-size">{{ i18n.text6 }}</view>
-			<view class="pay-box">
-				<view
-					class="pay-list pay-lists"
-					:class="PriceS == index ? 'pay-activeS' : ''"
-					@click="tabBarPayPriceS"
-					v-for="(tab, index) in tabBarsPayPrice"
-					:key="tab.id"
-					:data-current="index">
-					{{ tab.name }}
-					<view class="checkmarkempty"><uni-icons type="checkmarkempty" size="22" class="form-clear-icons" color="#fff"></uni-icons></view>
-				</view>
-			</view>
-			<view class="list">
-				<view class="pays-list">
-					<text class="uni-font-size">{{ i18n.text17 }}：</text>
-					<text class="pay-price" style="color: #de6334;">{{ matchSaleInfo.price || 0 }} CNY/USDT</text>
-				</view>
-				<view class="pays-list">
-					<text class="uni-font-size">{{ i18n.text18 }}：</text>
-					<text class="pay-prices">{{ matchSaleInfo.buyCount || 0 }} USDT</text>
-				</view>
-				<view class="pays-list">
-					<text class="uni-font-size">{{ i18n.text19 }}：</text>
-					<text class="pay-prices">{{ matchSaleInfo.buyAmount || 0 }} CNY</text>
-				</view>
-			</view>
-			<view class="button buttonF" @click="tabBarPayButton(2)">{{ i18n.text20 }} USDT</view>
-			<view class="help">
-				<text class="text-eos">{{ i18n.text39 }}</text><text class="text-eos" @click="agreementButton(3)">{{i18n.text039}}</text>
-			</view>
-		</view>
+		<!-- 新增 样式end -->
 		<!-- 中部弹框 -->
 		<uni-popup id="popupDialog" ref="popupDialog" type="dialog" @change="change">
 			<uni-popup-dialog :type="msgType" :title="i18n.text38" :content="dialogContent" :before-close="true" @confirm="dialogConfirm" @close="dialogClose"></uni-popup-dialog>
@@ -163,21 +214,46 @@ import { TOAST, SET_STORAGE, GET_STORAGE, REMOVE_STORAGE } from '@/common/global
 export default {
 	data() {
 		return {
+			// 新增参数
+			shareState: false,
+			// 新增end
 			loadMore: true,
 			noMsg: true,
 			Price: -1,
 			PriceS: -1,
 			tabIndexPay: 0,
+			// 支付方式
 			tabBarsPayPrice: [
 				{
-					name: this.$t('index.text22'),
-					id: '1'
+					name: this.$t('index.text23'),
+					id: '2',
+					src: '../../static/icon/pay_icon3.png'
 				},
 				{
-					name: this.$t('index.text23'),
-					id: '2'
+					name: this.$t('index.text22'),
+					id: '1',
+					src: '../../static/icon/alipay_icon.png'
+				},
+				{
+					name: this.$t('index.text44'),
+					id: '3',
+					src: '../../static/icon/wechat_icon.png'
 				}
 			],
+			// tabBarsPayPrice: [
+			// 	{
+			// 		name: this.$t('index.text22'),
+			// 		id: '1'
+			// 	},
+			// 	{
+			// 		name: this.$t('index.text23'),
+			// 		id: '2'
+			// 	},
+			// 	{
+			// 		name: this.$t('index.text44'),
+			// 		id: '3'
+			// 	}
+			// ],
 			tabBarPay: [
 				{
 					name: this.$t('index.text24'),
@@ -197,6 +273,18 @@ export default {
 			BarPayPriceNum: '',
 			msgType: 'success',
 			unitPrice: '',
+			minBuyAmt: '',
+			minBuyCount: '',
+			minBuyAmtStr: '',
+			minBuyCountStr: '',
+			minSaleAmt: '',
+			minSaleCount: '',
+			minSaleAmtStr: '',
+			minSaleCountStr: '',
+			// minBuyOrderAmt: '',
+			// minBuyOrderCount: '',
+			// minSaleOrderAmt: '',
+			// minSaleOrderCount: '',
 			// 一键购买USDT
 			BarPayPrice: '',
 			saleId: '', //匹配到的售卖订单id
@@ -205,7 +293,10 @@ export default {
 				price: '',
 				count: '',
 				buyAmount: '',
-				saleId: ''
+				saleId: '',
+				receiveAccountId: '',
+				isMatch: false,
+				PayIndex:2
 			},
 			// 一键卖出USDT
 			BarPayPrices: '',
@@ -213,10 +304,14 @@ export default {
 				price: '',
 				buyCount: '',
 				buyAmount: '',
-				saleId: ''
+				saleId: '',
+				isMatch: false,
+				PayIndex:2
 			},
 			PricesOpen: '0',
 			BarPayPriceNums: '',
+			convertMoney: '',
+			walletBalance: '',
 			noticeList:[]
 			
 		};
@@ -250,7 +345,8 @@ export default {
 			text: this.$t('tabBar.me')
 		});
 		this.getUSDTPrice(); // 获取单价
-		this.queryNoticeFunction()
+		this.queryNoticeFunction();
+		this.getMyAssetsItemFunction();
 	},
 	computed: {
 		i18n() {
@@ -261,22 +357,55 @@ export default {
 		let _this = this;
 		setTimeout(() => {
 			this.getUSDTPrice(); // 获取单价
-			this.queryNoticeFunction()
+			this.queryNoticeFunction();
+			this.getMyAssetsItemFunction();
 			uni.stopPullDownRefresh();
 		}, 300);
 	},
 	mounted() {
 	},
 	methods: {
+		// 新增start
+		// 底部弹框start
+		// 显示
+		handleShowShare(id) {
+			this.shareState = true;
+		},
+		// 隐藏
+		handleHiddenShare() {
+			this.shareState = false;
+		},
+		// 底部菜单选项
+		HiddenShare(index,id,name){
+			if(this.tabIndexPay == 0){
+				console.log("买买")
+				this.matchBuyInfo.PayIndex = id;
+			}else{
+				console.log("卖卖")
+				this.matchSaleInfo.PayIndex = id;
+			}
+			
+		    this.handleHiddenShare()
+		},
+		// 底部弹框end
+		navTo(url) {
+			if(!url) {
+				this.$alert("开发中，敬请期待！");
+			}
+			uni.navigateTo({
+				url: url
+			})
+		},
+		// 新增底部弹框end
+		goHome(){
+			uni.reLaunch({
+				url: '/pages/home/home'
+			});
+		},
 		navBack() {
 			uni.navigateBack();
 		},
 		agreementButton(id){
-			// 2 购买协议html
-			// 3 出售协议html
-			// uni.navigateTo({
-			// 	url: '/pages/agreement/agreement?id='+id
-			// });
 		},
 		toSecondPage(){
 			uni.navigateTo({
@@ -305,18 +434,15 @@ export default {
 		},
 		// 1 2 购买 1 3 售卖 input框
 		changeInput(val, status) {
+			console.log('changeInput')
 			if (status == '1' || status == '2') {
 				if (val == '' && this.Price != '-1') {
-					this.matchBuyInfo.price = '0';
-					this.matchBuyInfo.count = '0';
-					this.matchBuyInfo.buyAmount = '0';
+					this.resetMatchBuyInfo();
 				}
 			}
 			if (status == '3' || status == '4') {
 				if (val == '' && this.PriceS != '-1') {
-					this.matchSaleInfo.price = '0';
-					this.matchSaleInfo.buyCount = '0';
-					this.matchSaleInfo.buyAmount = '0';
+					this.resetMatchSaleInfo();
 				}
 			}
 			if (status == '1' || status == '2') {
@@ -335,6 +461,7 @@ export default {
 		// 购买控制器
 		tabsOpenButton() {
 			this.tabsOpen = !this.tabsOpen;
+			console.log('tabsOpenButton')
 			if (this.tabsOpen == true) {
 				this.changeInput(this.BarPayPriceNum, '2');
 				return;
@@ -362,10 +489,39 @@ export default {
 			let res = await api.getUSDTPrice({});
 			if (res.code === '000') {
 				uni.hideLoading();
-				this.unitPrice = res.data;
+				this.unitPrice = res.data.usdtPrice;
+				this.minBuyAmt = +res.data.minBuyAmt;
+				this.minBuyCount = +res.data.minBuyCount;
+				this.minBuyAmtStr = res.data.minBuyAmt + this.$t('index.text41');
+				this.minBuyCountStr = res.data.minBuyCount + this.$t('index.text42');
+				this.minSaleAmt = +res.data.minSaleAmt;
+				this.minSaleCount = +res.data.minSaleCount;
+				this.minSaleAmtStr = res.data.minSaleAmt + this.$t('index.text45');
+				this.minSaleCountStr = res.data.minSaleCount + this.$t('index.text46');
 			} else if(res.code === "500"){
 				uni.hideLoading();
 				this.$alert(this.$t('index.text600'))
+			} else {
+				uni.hideLoading();
+				uni.showToast({ title: res.errorMessage, icon: 'none' });
+			}
+		},
+		setMaxForSale() {
+			this.BarPayPrices = this.convertMoney;
+			this.BarPayPriceNums = this.walletBalance;
+		},
+		async getMyAssetsItemFunction() {
+			uni.showLoading({ title: this.$t('myUser.text13'), mask: true });
+			let res = await api.getMyAssetsItemHttp({
+				coinSymbol: 'USDT'
+			});
+			if (res.code === '000') {
+				uni.hideLoading();
+				this.convertMoney = res.data.convertMoney;
+				this.walletBalance = res.data.walletBalance;
+			} else if (res.code === '500') {
+				uni.hideLoading();
+				this.$alert(this.$t('myUser.text600'));
 			} else {
 				uni.hideLoading();
 				uni.showToast({ title: res.errorMessage, icon: 'none' });
@@ -375,33 +531,21 @@ export default {
 		async matchSaleInfoFunftion() {
 			var obj = {};
 			const system_info = GET_STORAGE('system_info');
-			if (this.tabsOpen == false) {
-				obj = {
-					lang:system_info.language,
-					payType: (Number(this.Price) + 1).toString(), //收款类型；1：支付宝；2：银行卡 ,
-					buyAmount: this.BarPayPrice, //售卖总额 ,
-					buyType: '1' //售卖类型；1：按金额出售；2：按数量出售
-				};
-			} else {
-				obj = {
-					lang:system_info.language,
-					payType: (Number(this.Price) + 1).toString(), //收款类型；1：支付宝；2：银行卡 ,
-					buyCount: this.BarPayPriceNum, //售卖个数,
-					buyType: '2' //售卖类型；1：按金额出售；2：按数量出售
-				};
-			}
 			uni.showLoading({ title: this.$t('index.text27'), mask: true });
 			let res = await api.matchSaleInfoHttp(obj);
 			if (res.code === '000') {
+				this.matchBuyInfo.isMatch = res.data.isMatch;
 				uni.hideLoading();
 				if(!this.tabsOpen){
 					if(this.BarPayPrice>res.data.buyAmount){
 						this.$alert("成交总额不足，请重新购买");
+						this.resetMatchBuyInfo();
 						return;
 					}
 				}else{
-					if(this.BarPayPriceNum>res.data.buyAmount){
+					if(this.BarPayPriceNum>res.data.count){
 						this.$alert("成交数量不足，请重新购买");
+						this.resetMatchBuyInfo();
 						return;
 					}
 				}
@@ -409,14 +553,14 @@ export default {
 				this.matchBuyInfo.price = res.data.price;
 				this.matchBuyInfo.count = res.data.count;
 				this.matchBuyInfo.buyAmount = res.data.buyAmount;
+				this.matchBuyInfo.receiveAccountId = res.data.receiveAccountId;
 			
 				return;
 			}
 			if (res.code != '000') {
 				uni.hideLoading();
-				this.matchBuyInfo.price = '0';
-				this.matchBuyInfo.count = '0';
-				this.matchBuyInfo.buyAmount = '0';
+				this.resetMatchBuyInfo();
+				this.matchBuyInfo.isMatch = false;
 				this.$alert(res.errorMessage);
 				return;
 			}
@@ -426,30 +570,25 @@ export default {
 				return;
 			} 
 		},
+		resetMatchBuyInfo() {
+			this.matchBuyInfo.price = '0';
+			this.matchBuyInfo.count = '0';
+			this.matchBuyInfo.buyAmount = '0';
+		},
+		resetMatchSaleInfo(){
+			this.matchSaleInfo.price = '0';
+			this.matchSaleInfo.buyCount = '0';
+			this.matchSaleInfo.buyAmount = '0';
+		},
 		// 匹配购买USDT订单
 		async matchBuyInfoFunftion() {
 			var obj = {};
 			const system_info = GET_STORAGE('system_info');
-			if (this.tabsOpenM == false) {
-				obj = {
-					lang:system_info.language,
-					payType: (Number(this.PriceS) + 1).toString(), //收款类型；1：支付宝；2：银行卡 ,
-					saleAmount: this.BarPayPrices, //售卖总额 ,
-					saleType: '1' //售卖类型；1：按金额出售；2：按数量出售
-				};
-			} else {
-				obj = {
-					lang:system_info.language,
-					payType: (Number(this.PriceS) + 1).toString(), //收款类型；1：支付宝；2：银行卡 ,
-					saleCount: this.BarPayPriceNums, //售卖个数,
-					saleType: '2' //售卖类型；1：按金额出售；2：按数量出售
-				};
-			}
-
 			uni.showLoading({ title: this.$t('index.text27'), mask: true });
 			let res = await api.matchBuyInfoHttp(obj);
 			if (res.code === '000') {
 				uni.hideLoading();
+				this.matchSaleInfo.isMatch = res.data.isMatch;
 				this.matchSaleInfo.saleId = res.data.buyId;
 				this.matchSaleInfo.price = res.data.price;
 				this.matchSaleInfo.buyCount = res.data.buyCount;
@@ -458,10 +597,8 @@ export default {
 			}
 			if (res.code != '000') {
 				uni.hideLoading();
-				this.matchSaleInfo.price = '0';
-				this.matchSaleInfo.buyCount = '0';
-				this.matchSaleInfo.buyAmount = '0';
-
+				this.resetMatchSaleInfo();
+				this.matchSaleInfo.isMatch = false;
 				this.$alert(res.errorMessage);
 				return;
 			}
@@ -473,26 +610,6 @@ export default {
 		},
 		// 一键购买
 		async buyInfoFunftion() {
-			var obj = {};
-			const system_info = GET_STORAGE('system_info');
-			
-			if (this.tabsOpen == false) {
-				obj = {
-					buyAmount: this.matchBuyInfo.buyAmount, //售卖总额 ,
-					buyType: '1', //售卖类型；1：按金额出售；2：按数量出售
-					lang:system_info.language,
-					payType: (Number(this.Price) + 1).toString(), //收款类型；1：支付宝；2：银行卡 ,
-					saleId: this.matchBuyInfo.saleId
-				};
-			} else {
-				obj = {
-					buyType: '2', //售卖类型；1：按金额出售；2：按数量出售
-					lang:system_info.language,
-					payType: (Number(this.Price) + 1).toString(), //收款类型；1：支付宝；2：银行卡 ,
-					buyCount: this.matchBuyInfo.count, //售卖个数,
-					saleId: this.matchBuyInfo.saleId
-				};
-			}
 			uni.showLoading({ title: this.$t('index.text27'), mask: true });
 			let res = await api.buyInfoHttp(obj);
 			if (res.code === '000') {
@@ -523,27 +640,6 @@ export default {
 		// 一键售卖
 		async saleInfoFunftion() {
 			var obj = {};
-			// 
-			const system_info = GET_STORAGE('system_info');
-			if (this.tabsOpenM == false) {
-				obj = {
-					lang:system_info.language,
-					payType: (Number(this.PriceS) + 1).toString(), //收款类型；1：支付宝；2：银行卡 ,
-					price: this.matchSaleInfo.price, //售卖单价 ,
-					saleAmount: this.BarPayPrices, //售卖总额 ,
-					saleType: '1', //售卖类型；1：按金额出售；2：按数量出售
-					buyId: this.matchSaleInfo.saleId
-				};
-			} else {
-				obj = {
-					lang:system_info.language,
-					payType: (Number(this.PriceS) + 1).toString(), //收款类型；1：支付宝；2：银行卡 ,
-					price: this.matchSaleInfo.price, //售卖单价 ,
-					saleCount: this.BarPayPriceNums, //售卖数量 ,
-					saleType: '2', //售卖类型；1：按金额出售；2：按数量出售
-					buyId: this.matchSaleInfo.saleId
-				};
-			}
 			uni.showLoading({ title: this.$t('index.text27'), mask: true });
 			let res = await api.saleInfoHttp(obj);
 			if (res.code === '000') {
@@ -664,74 +760,18 @@ export default {
 		},
 		change(e) {},
 		checkboxGroup(e) {},
-		// 一键卖币 支付宝与银行卡
 		tabBarPayPriceS(e) {
+			console.log("tabBarPayPriceS")
 			if (Number(this.tabIndexPay) + 1 == 2) {
-				if (this.tabsOpenM == false) {
-					if (this.BarPayPrices == '') {
-						this.$alert(this.$t('index.text35'));
-						return;
-					}
-					if (this.BarPayPrices != '') {
-						let index = e.target.dataset.current || e.currentTarget.dataset.current;
-						if (this.PriceS === index) {
-							return;
-						}
-						this.PriceS = index;
-						this.matchBuyInfoFunftion();
-						return;
-					}
-				} else {
-					if (this.BarPayPriceNums == '') {
-						this.$alert(this.$t('index.text37'));
-						return;
-					}
-					if (this.BarPayPriceNums != '') {
-						let index = e.target.dataset.current || e.currentTarget.dataset.current;
-						if (this.PriceS === index) {
-							return;
-						}
-						this.PriceS = index;
-						this.matchBuyInfoFunftion();
-						return;
-					}
-				}
+				this.matchBuyInfoFunftion();
 				return;
 			}
 		},
-		// 一键买币 支付宝与银行卡
+		// 一键买币 支付宝与银行卡，微信（2021-5-1）
 		tabBarPayPrice(e) {
 			var that = this;
 			if (Number(this.tabIndexPay) + 1 == 1) {
-				if (this.tabsOpen == false) {
-					if (this.BarPayPrice == '') {
-						this.$alert(this.$t('index.text31'));
-						return;
-					}
-					if (this.BarPayPrice != '' || this.Price != '-1') {
-						let index = e.target.dataset.current || e.currentTarget.dataset.current;
-						if (this.Price === index) {
-							return;
-						}
-						this.Price = index;
-						this.matchSaleInfoFunftion();
-						return;
-					}
-				} else {
-					if (this.BarPayPriceNum == '') {
-						this.$alert(this.$t('index.text33'));
-						return;
-					}
-					if (this.BarPayPriceNum != '' || this.Price != '-1') {
-						let index = e.target.dataset.current || e.currentTarget.dataset.current;
-						if (this.Price === index) {
-							return;
-						}
-						this.Price = index;
-						this.matchSaleInfoFunftion();
-						return;
-					}
-				}
+				this.matchSaleInfoFunftion();
 				return;
 			}
 		},
@@ -774,6 +814,180 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+	// 新增改版样式start
+	.SIZE{
+		font-size: 26rpx;
+	}
+	.button {
+		border-radius: 10rpx;
+		height: 80rpx;
+		background: #06b572;
+		text-align: center;
+		color: #fff;
+		font-size: 26rpx;
+		line-height: 80rpx;
+		margin:60rpx 30rpx;
+	}
+	.borderBottom{
+		border-bottom: 1px solid #f5f5f5;
+		padding-bottom: 30rpx;
+	}
+	.header {
+		margin-top: 40rpx;
+		padding: 20rpx;
+		height: 80rpx;
+	}
+	.homeIndex{
+		margin-top:50rpx;
+	}
+	.title-p{
+		font-size: 28rpx;
+		color: #333;
+		padding: 0 30rpx;
+		font-weight: bold;
+	}
+	.form-inputs{
+		border: none;
+		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+		border-radius: 10rpx;
+		height: 90rpx;
+		padding-top: 24rpx;
+		padding-left: 30rpx;
+		padding-right: 120rpx;
+		position: relative;
+		margin-bottom: 30rpx;	
+		.input-Eos {
+			width: 120rpx;
+			font-size: 26rpx;
+			color: #06b572;
+			position: absolute;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			text-align: center;
+			line-height: 85rpx;
+		}
+	}
+	.form-clear-icon {
+		display: block;
+		float: left;
+	}
+	.text-eos {
+		color: $uni-textJ-color;
+		font-size: 22rpx;
+		display: block;
+		float: right;
+		line-height: 32rpx;
+		margin-right: 30rpx;
+		.text-number {
+			color: #333;
+		}
+	}
+	.icon-img {
+		width: 30rpx;
+		height: 30rpx;
+		margin-right: 10rpx;
+		display: block;
+		float: left;
+	}
+	.priceStatus{
+		margin: 25rpx 0;
+	}
+	// 底部弹框
+	.share {
+		width: 100%;
+		height: 100%;
+	}
+	.share-box {
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		top: 0rpx;
+		left: 0rpx;
+		bottom: 0rpx;
+		right: 0rpx;
+		background-color: rgba(0, 0, 0, 0.4);
+		transition: 0.3s;
+		z-index: 999;
+	}
+	// 进入分享动画
+	.share-show {
+		transition: all 0.3s ease;
+		transform: translateY(0%) !important;
+	}
+	// 离开分享动画
+	.share-item {
+		position: fixed;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		height: auto;
+		background-color: #ffffff;
+		transition: all 0.3s ease;
+		transform: translateY(100%);
+		z-index: 1999;
+		border-top-left-radius: 25rpx;
+		border-top-right-radius: 25rpx;
+		padding:30rpx;
+		.pay-list{
+			padding:30rpx  0;
+		}
+		.content {
+			width: 100%;
+			height: auto;
+			display: flex;
+			flex-wrap: wrap;
+			.block {
+				width: 33%;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				height: 180rpx;
+				image {
+					width: 80rpx;
+					height: 80rpx;
+				}
+				text {
+					margin-top: 16rpx;
+					font-size: 28rpx;
+					color: #606266;
+				}
+			}
+		}
+	}
+	.text-users {
+		display: block;
+		float: left;
+		line-height: 30rpx !important;
+	}
+	.paySatus{
+		margin-right: 30rpx;
+	}
+	.input-Eos-1 {
+		width: 120rpx;
+		font-size: 26rpx;
+		color: #06b572;
+		position: absolute;
+		right: 120rpx;
+		top: 0;
+		bottom: 0;
+		text-align: center;
+		line-height: 85rpx;
+	}
+	.input-Eos-2 {
+		width: 120rpx;
+		font-size: 28rpx;
+		color: #de6334;
+		position: absolute;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		text-align: center;
+		line-height: 85rpx;
+		border-left: 1px solid rgba(0, 0, 0, 0.1);
+	}
+	// 新增改版样式end
 	.nowrap2{
 		height: 32rpx !important;
 		line-height: 32rpx !important;
@@ -805,10 +1019,7 @@ export default {
 .content {
 	padding: 0 !important;
 }
-.header {
-	padding: 20rpx;
-	height: 80rpx;
-}
+
 .pay-lists {
 	color: #ccc !important;
 }
@@ -824,16 +1035,6 @@ export default {
 	.remonk-list {
 		margin: 10rpx 0;
 	}
-}
-.button {
-	border-radius: 10rpx;
-	height: 80rpx;
-	background: #06b572;
-	text-align: center;
-	color: #fff;
-	font-size: 26rpx;
-	line-height: 80rpx;
-	margin: 20rpx 0;
 }
 .pays-list {
 	margin: 18rpx 0;
@@ -934,6 +1135,7 @@ export default {
 		text-align: center;
 		line-height: 85rpx;
 	}
+	
 }
 .content {
 	.text-b {
@@ -948,24 +1150,7 @@ export default {
 		line-height: 58rpx;
 		margin-left: 20rpx;
 	}
-	.help {
-		margin: 20rpx 0;
-	}
-	.form-clear-icon {
-		display: block;
-		float: left;
-	}
-	.text-eos {
-		color: $uni-textJ-color;
-		font-size: 22rpx;
-		display: block;
-		float: left;
-		line-height: 32rpx;
-		margin-left: 10rpx;
-		.text-number {
-			color: #333;
-		}
-	}
+	
 }
 .scroll-h {
 	width: 100%;

@@ -81,6 +81,7 @@
 					<image src="../../static/icon/level_icon2.png" mode="" class="tabbar3 pull-right"></image>
 					<text class="pull-right">{{ orderPaydata.saleUserNickName }}</text>
 				</view>
+				<!-- 收款方式 -->
 				<view class="pay-list height borderBottom">
 					<text class="pull-left">{{ i18n.text16 }}</text>
 					<view class="pull-right" v-if="orderPaydata.payType == '2'">
@@ -92,7 +93,8 @@
 						<image src="../../static/icon/alipay_icon.png" mode="" class="pay_icon2 pull-right"></image>
 					</view>
 				</view>
-				<view class="pay-list height borderBottom" v-show="orderConfirm.orderConfirmShow" v-if="orderConfirm.payStauts == 1 && orderConfirm.type == 1">
+				<!-- 银行名称 -->
+				<view class="pay-list height borderBottom" v-show="orderConfirm.orderConfirmShow" v-if="orderConfirm.payStauts == 1 && orderConfirm.type == 1 && orderPaydata.payType == '2'">
 					<text class="pull-left">{{ i18n.text0016 }}</text>
 					<view class="pull-right" v-if="orderPaydata.payType == '2'">
 						<text class="pull-right">{{ orderConfirm.bankName }}</text>
@@ -103,8 +105,12 @@
 						<image src="../../static/icon/alipay_icon.png" mode="" class="pay_icon2 pull-right"></image>
 					</view> -->
 				</view>
-				<view class="pay-list height borderBottom" v-show="orderConfirm.orderConfirmShow" v-if="orderConfirm.payStauts == 1 && orderConfirm.type == 1">
+				<!-- 银行卡号 -->
+				<view class="pay-list height borderBottom" v-show="orderConfirm.orderConfirmShow" v-if="orderConfirm.payStauts == 1 && orderConfirm.type == 1 && orderPaydata.payType == '2'">
 					<text class="pull-left">{{ i18n.text016 }}</text>
+					<view class="pull-right" @click="copyTextFun(orderConfirm.bankNum)">
+						<text class="pull-right copy-text">复制</text>
+					</view>
 					<view class="pull-right" v-if="orderPaydata.payType == '2'">
 						<text class="pull-right">{{ orderConfirm.bankNum }}</text>
 						<!-- <image src="../../static/icon/pay_icon2.png" mode="" class="pay_icon2 pull-right"></image> -->
@@ -114,16 +120,31 @@
 						<image src="../../static/icon/alipay_icon.png" mode="" class="pay_icon2 pull-right"></image>
 					</view> -->
 				</view>
-				
+				<!-- 卖家姓名 -->
 				<view class="pay-list height borderBottom" v-show="orderConfirm.orderConfirmShow" v-if="orderConfirm.payStauts == 1 && orderConfirm.type == 1">
 					<text class="pull-left">{{ i18n.text19 }}</text>
+					<view class="pull-right" @click="copyTextFun(orderConfirm.realName)">
+						<text class="pull-right copy-text">复制</text>
+					</view>
 					<text class="pull-right">{{ orderConfirm.realName }}</text>
 				</view>
+				<!-- 银行地址 -->
 				<view class="pay-list height borderBottom" v-show="orderConfirm.orderConfirmShow" v-if="orderConfirm.payStauts == 1 && orderConfirm.type == 1">
 					<text class="pull-left" v-if="orderPaydata.payType == '1'">{{ i18n.text18 }}</text>
 					<text class="pull-left" v-if="orderPaydata.payType == '2'">{{ i18n.text017 }}</text>
+					<text class="pull-left" v-if="orderPaydata.payType == '3'">{{ i18n.text018 }}</text>
+					<view class="pull-right" @click="copyTextFun(orderPaydata.payType == '1' ? orderConfirm.aliPayNum : orderPaydata.payType == '2' ? orderConfirm.bankAddr : orderConfirm.wechatNum)">
+						<text class="pull-right copy-text">复制</text>
+					</view>
 					<text class="pull-right" v-if="orderPaydata.payType == '1'">{{ orderConfirm.aliPayNum }}</text>
 					<text class="pull-right" v-if="orderPaydata.payType == '2'">{{ orderConfirm.bankAddr }}</text>
+					<text class="pull-right" v-if="orderPaydata.payType == '3'">{{ orderConfirm.wechatNum }}</text>
+				</view>
+				<view class="bg-img height" v-if="orderPaydata.payType == '1'" v-show="codeshow"> 
+					<image :src="orderConfirm.alipayQrCode" mode="aspectFill" class="image" name=""></image>
+				</view>
+				<view class="bg-img height" v-if="orderPaydata.payType == '3'" v-show="codeshow">
+					<image :src="orderConfirm.wechatQrcode" mode="aspectFill" class="image" name=""></image>
 				</view>
 				<view class="pay-list height">
 					<text class="pull-left">{{ $t('orderPayment.text020') }}{{ $t('orderPayment.text019') }}</text>
@@ -149,6 +170,7 @@
 <script>
 import uniIcons from '@/components/uni-icons/uni-icons.vue';
 import api from '@/api/index.js';
+import http from '@/request/request.js';
 import { TOAST, SET_STORAGE, GET_STORAGE, REMOVE_STORAGE } from '@/common/globalConfig.js';
 export default {
 	data() {
@@ -167,6 +189,7 @@ export default {
 			orderConfirm: {
 				realName: '',
 				aliPayNum: '',
+				alipayQrCode: '',
 				tradeCode: '', //
 				title: this.$t('orderPayment.text22'),
 				orderConfirmShow: false,
@@ -174,9 +197,12 @@ export default {
 				type: '0',
 				bankAddr: '',
 				bankName:"",
-				bankNum:""
+				bankNum:"",
+				wechatNum: "",
+				wechatQrcode: ''
 			},
-			urlLink: 0
+			urlLink: 0,
+			codeshow: false,
 		};
 	},
 	computed: {
@@ -211,13 +237,16 @@ export default {
 	mounted() {},
 	methods: {
 		phoneButton() {
-			uni.makePhoneCall({
-				// 手机号
-				phoneNumber: this.orderPaydata.saleUserPhone,
-				// 成功回调
-				success: res => {},
-				// 失败回调
-				fail: res => {}
+			// uni.makePhoneCall({
+			// 	// 手机号
+			// 	phoneNumber: this.orderPaydata.saleUserPhone,
+			// 	// 成功回调
+			// 	success: res => {},
+			// 	// 失败回调
+			// 	fail: res => {}
+			// });
+			uni.navigateTo({
+				url: '/hybrid/html/service'
 			});
 		},
 		navBack() {
@@ -308,6 +337,19 @@ export default {
 				if (res.data.aliPayNum) {
 					this.orderConfirm.aliPayNum = res.data.aliPayNum;
 				}
+				// console.log(res.data.aliPayNum + ":" + res.data.alipayQrCode + ":" + this.orderPaydata.payType)
+				if (res.data.alipayQrCode) {
+					this.orderConfirm.alipayQrCode = http.config.baseUrl + res.data.alipayQrCode;
+					// console.log(this.orderConfirm.alipayQrCode)
+					this.codeshow = true;
+				}
+				if (res.data.wechatNum) {
+					this.orderConfirm.wechatNum = res.data.wechatNum;
+				}
+				if (res.data.wechatQrcode) {
+					this.orderConfirm.wechatQrcode = res.data.wechatQrcode;
+					this.codeshow = true;
+				}
 				this.orderConfirm.tradeCode = res.data.tradeCode;
 				this.orderConfirm.orderConfirmShow = true;
 				if (res.data.bankAddr) {
@@ -393,6 +435,32 @@ export default {
 				uni.hideLoading();
 				uni.showToast({ title: res.errorMessage, icon: 'none' });
 			}
+		},
+		copyTextFun(copy) {
+			let tips = "已成功复制到剪贴板";
+			//判断是安卓还是ios
+			if(typeof(plus) === "undefined")
+				return;
+			if (uni.getSystemInfoSync().platform === 'android') {
+				//安卓
+				var context = plus.android.importClass("android.content.Context");
+				var main = plus.android.runtimeMainActivity();
+				var clip = main.getSystemService(context.CLIPBOARD_SERVICE);
+				plus.android.invoke(clip, "setText", copy);
+			} else {
+				//ios
+				var UIPasteboard = plus.ios.importClass("UIPasteboard");
+				var generalPasteboard = UIPasteboard.generalPasteboard();
+				//设置/获取文本内容:
+				generalPasteboard.plusCallMethod({
+					setValue: copy,
+					forPasteboardType: "public.utf8-plain-text"
+				});
+				generalPasteboard.plusCallMethod({
+					valueForPasteboardType: "public.utf8-plain-text"
+				});
+			}
+			uni.showToast({ title: tips, icon: 'none' });
 		}
 	}
 };
@@ -500,5 +568,12 @@ export default {
 		font-size: 60rpx !important;
 		color: #06b572 !important;
 	}
+}
+.copy-text {
+	margin-left: 10rpx;
+	color: blue;
+}
+.bg-img {
+	text-align: center;
 }
 </style>

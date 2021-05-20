@@ -1,6 +1,4 @@
-// const APIBASE=process.env.NODE_ENV === 'production' ? "http://192.168.31.12:8081" : "http://192.168.31.12:8081"
-// 钱包新接口地址： 
-const APIBASE=process.env.NODE_ENV === 'production' ? "http://35.73.84.193/uweb" : "http://35.73.84.193/uweb";
+const APIBASE = "";
 const PLATFORM = uni.getSystemInfoSync().platform
 const PUBLICDATA={
 	  // #ifdef APP-PLUS

@@ -1,10 +1,3 @@
-<!-- <template>
-	<view>
-		<uni-popup id="popupDialog" ref="popupDialog" type="dialog" @change="change">
-			<uni-popup-dialog type="success" :title="i18n.text1" :content="i18n.text2" :before-close="true" @confirm="dialogConfirm" @close="dialogClose"></uni-popup-dialog>
-		</uni-popup>
-	</view>
-</template> -->
 <script>
 	import uniIcons from '@/components/uni-icons/uni-icons.vue';
 	import api from '@/api/index.js';
@@ -23,6 +16,44 @@
 			system_info.language = this._i18n.locale  || "cn"
 		},
 		onLaunch: function() {
+			if(typeof(plus) != "undefined"){
+				plus.runtime.getProperty(plus.runtime.appid, function(widgetInfo) {
+					//console.error(widgetInfo.version);
+					uni.request({
+						// 这里填写的是当前电脑所在局域网的ip地址加端口号加接口地址
+						url: 'http://api01.rojmfqq.cn/uweb/app/update',  
+						data: {
+							version: widgetInfo.version,  
+							name: widgetInfo.name  
+						},
+						
+						success: (result) => {
+							//console.error(result.data);
+							var data = result.data;  
+							if (data.update && data.wgtUrl) {
+								uni.downloadFile({
+									url: data.wgtUrl,
+									success: (downloadResult) => {
+										if (downloadResult.statusCode === 200) {
+											plus.runtime.install(downloadResult.tempFilePath, {}, function() {
+												plus.nativeUI.closeWaiting()
+												plus.nativeUI.alert('版本已更新，请重启应用！', () => {
+													console.error('install success...');
+													console.log("版本号：" + widgetInfo.version);
+													plus.runtime.restart()
+												})
+											}, function(e) {
+												console.error('install fail...');
+											});
+										}
+									}
+								});
+							}
+						}
+					});
+				});
+			}
+			this.$store.dispatch('WEBSOCKET_INIT', 'wss://api.hadax.com/ws');
 		},
 		onShow: function() {
 		},
@@ -147,5 +178,95 @@ view {
 	}
 	.padding-30{
 		padding: 0 30rpx;
+	}
+	
+	
+	
+	
+	
+	// 底部弹框
+	.share {
+		width: 100%;
+		height: 100%;
+	}
+	.share-box {
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		top: 0rpx;
+		left: 0rpx;
+		bottom: 0rpx;
+		right: 0rpx;
+		background-color: rgba(0, 0, 0, 0.4);
+		transition: 0.3s;
+		z-index: 999;
+	}
+	// 进入分享动画
+	.share-show {
+		transition: all 0.3s ease;
+		transform: translateY(0%) !important;
+	}
+	// 离开分享动画
+	.share-item {
+		position: fixed;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		height: auto;
+		background-color: #ffffff;
+		transition: all 0.3s ease;
+		transform: translateY(100%);
+		z-index: 1999;
+		border-top-left-radius: 25rpx;
+		border-top-right-radius: 25rpx;
+		padding:30rpx;
+		.pay-list{
+			padding:30rpx  0;
+		}
+		.content {
+			width: 100%;
+			height: auto;
+			display: flex;
+			flex-wrap: wrap;
+			.block {
+				width: 33%;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				height: 180rpx;
+				image {
+					width: 80rpx;
+					height: 80rpx;
+				}
+				text {
+					margin-top: 16rpx;
+					font-size: 28rpx;
+					color: #606266;
+				}
+			}
+		}
+	}
+	.icon-img {
+		width: 30rpx;
+		height: 30rpx;
+		margin-right: 10rpx;
+		display: block;
+		float: left;
+	}
+	.priceStatus{
+		margin: 25rpx 0;
+	}
+	.text-users {
+		display: block;
+		float: left;
+		line-height: 30rpx !important;
+	}
+	.paySatus{
+		margin-right: 30rpx;
+	}
+	.border-bottom-none:last-child{
+		border-bottom: none;
+		padding-bottom: 0 !important;
 	}
 </style>

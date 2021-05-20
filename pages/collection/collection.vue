@@ -38,7 +38,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="" v-if="tabsOpen == true">
+		<view class="" v-if="tabsOpenzfb">
 			<no-msg v-if="listConfig.noMsg"></no-msg>
 			<view v-if="dataZFB.length > 0">
 				<uni-swipe-action>
@@ -58,7 +58,7 @@
 										size="16"
 										class="form-clear-icon"
 										color="#999"
-										@click="swipeChange(item.realName, item.alipayNum, item.alipayQrcode)"
+										@click="swipeChange(item.id, item.realName, item.alipayNum, item.alipayQrcode)"
 									></uni-icons>
 								</view>
 								<view class="yinheng-box">
@@ -74,7 +74,7 @@
 			<uni-load-more v-if="listConfig.loadMore" status="noMore"></uni-load-more>
 		</view>
 		<!-- 银行卡 -->
-		<view class="pay-yinheng" v-if="tabsOpen == false">
+		<view class="pay-yinheng" v-if="tabsOpenyh">
 			<no-msg v-if="listConfigS.noMsgS"></no-msg>
 			<view v-if="dataYH.length > 0">
 				<uni-swipe-action>
@@ -88,7 +88,7 @@
 									size="16"
 									class="form-clear-icon"
 									color="#999"
-									@click="swipeChange2(item.realName, item.bankNum, item.bankName, item.bankAddress)"
+									@click="swipeChange2(item.id, item.realName, item.bankNum, item.bankName, item.bankAddress)"
 								></uni-icons>
 							</view>
 							<view class="yinheng-box">
@@ -102,15 +102,55 @@
 			</view>
 			<uni-load-more v-if="listConfigS.loadMoreS" status="noMore"></uni-load-more>
 		</view>
+		<!-- 微信 -->
+		<view class="" v-if="tabsOpenwx">
+			<no-msg v-if="listConfigSS.noMsgSS"></no-msg>
+			<view v-if="dataWX.length > 0">
+				<uni-swipe-action>
+					<uni-swipe-action-item
+						class="yinheng-list height"
+						v-for="(item, index) in dataWX"
+						:right-options="options"
+						:key="item.id"
+						@click="toggleMessage('success',item.id)">
+						<view class="slider-box content-box height">
+							<view class="yinheng-img height pull-left"><image src="../../static/icon/wechat_icon.png" mode="" class="pull-left"></image></view>
+							<view class="height">
+								<view class="yinheng-box">
+									<text class="yinh">{{ i18n.text17 }}</text>
+									<uni-icons
+										type="compose"
+										size="16"
+										class="form-clear-icon"
+										color="#999"
+										@click="swipeChange3(item.id, item.realName, item.wechatNum, item.wechatQrcode)"
+									></uni-icons>
+								</view>
+								<view class="yinheng-box">
+									<text class="form-clear">{{ item.realName }}</text>
+									<text class="form-clear-icon pay-color">{{ item.wechatNum }}</text>
+								</view>
+							</view>
+						</view>
+					</uni-swipe-action-item>
+					<uni-load-more v-if="listConfigSS.loadingSS" status="loading"></uni-load-more>
+				</uni-swipe-action>
+			</view>
+			<uni-load-more v-if="listConfigSS.loadMoreSS" status="noMore"></uni-load-more>
+		</view>
 		<view class="make-view" v-show="makeShow" @click="makeButton"  style="display: none;">
 			<view class="pay-box pull-left pay-boxs">
 				<view class="pay-list border-bottom height" @click="payButton(1, i18n.text4)">
 					<image src="../../static/icon/alipay_icon.png" mode="" class="icon-img"></image>
 					<text class="uni-font-size text-users">{{ i18n.text6 }}</text>
 				</view>
-				<view class="pay-list height" @click="payButton(2, i18n.text5)">
+				<view style="margin-top: 30rpx;" class="pay-list border-bottom height" @click="payButton(2, i18n.text5)">
 					<image src="../../static/icon/pay_icon3.png" mode="" class="icon-img"></image>
 					<text class="uni-font-size text-users">{{ i18n.text7 }}</text>
+				</view>
+				<view class="pay-list height" @click="payButton(3, i18n.text17)">
+					<image src="../../static/icon/wechat_icon.png" mode="" class="icon-img"></image>
+					<text class="uni-font-size text-users">{{ i18n.text18 }}</text>
 				</view>
 			</view>
 		</view>
@@ -154,12 +194,20 @@ export default {
 				{
 					name: this.$t('collection.text4'),
 					id: '1'
+				},
+				{
+					name: this.$t('collection.text17'),
+					id: '2'
 				}
+				
 			],
-			tabsOpen: false,
+			tabsOpenyh: false,
+			tabsOpenzfb: false,
+			tabsOpenwx: false,
 			makeShow: false,
 			dataZFB: [],
 			dataYH: [],
+			dataWX: [],
 			// 控制支付宝列表
 			listConfig: {
 				noMsg: false, //暂无更多数据
@@ -178,6 +226,15 @@ export default {
 				pageSizeS: 10,
 				totalS: 0
 			},
+			// 控制微信列表
+			listConfigSS: {
+				noMsgSS: false, //暂无更多数据
+				loadMoreSS: false, //没有更多数据
+				loadingSS: false, //正在加载中动画
+				pageNoSS: 1,
+				pageSizeSS: 10,
+				totalSS: 0
+			},
 			msgType: 'success',
 			getReceiveStatisData: '',
 			id:"",
@@ -192,34 +249,27 @@ export default {
 	onPullDownRefresh() {
 		this.dataZFB = [];
 		this.dataYH = [];
-		if (this.tabIndex == 0) {
-			setTimeout(() => {
-				this.getReceiveAccountListFunction();
-				uni.stopPullDownRefresh();
-			}, 300);
-			return;
-		}
-		if (this.tabIndex == 1) {
-			setTimeout(() => {
-				this.getReceiveAccountListFunction();
-				uni.stopPullDownRefresh();
-			}, 300);
-			return;
-		}
+		this.dataWX = [];
+		setTimeout(() => {
+			this.getReceiveAccountListFunction();
+			uni.stopPullDownRefresh();
+		}, 300);
 	},
 	onLoad() {
 		uni.setNavigationBarTitle({
 			title: this.$t('collection.text15')
 		});
 		this.tabIndex = 0;
-		this.getReceiveStatisFunction();
+		this.tabsOpenyh = true;
 	},
 	onLaunch: function() {
 	},
 	onShow: function() {
 		this.dataZFB = [];
 		this.dataYH = [];
-		this.getReceiveAccountListFunction();
+		this.dataWX = [];
+		this.getReceiveStatisFunction();
+		
 		this.makeShow = false;
 	},
 	onHide: function() {
@@ -233,8 +283,9 @@ export default {
 		navBack() {
 			uni.navigateBack();
 		},
-		swipeChange(realName, alipayNum, alipayQrcode) {
+		swipeChange(id, realName, alipayNum, alipayQrcode) {
 			var obj = {
+				id: id,
 				realName: realName,
 				alipayNum: alipayNum,
 				alipayQrcode: alipayQrcode
@@ -245,8 +296,9 @@ export default {
 				});
 			}, 1000);
 		},
-		swipeChange2(realName, bankNum, bankName, bankAddress) {
+		swipeChange2(id, realName, bankNum, bankName, bankAddress) {
 			var obj = {
+				id: id,
 				realName: realName,
 				bankNum: bankNum,
 				bankName: bankName,
@@ -255,6 +307,19 @@ export default {
 			setTimeout(() => {
 				uni.navigateTo({
 					url: '/pages/collection/collectionForm?id=2&name=' + this.$t('collection.text5') + '&list=0&item=' + encodeURIComponent(JSON.stringify(obj))
+				});
+			}, 1000);
+		},
+		swipeChange3(id, realName, wechatNum, wechatQrcode) {
+			var obj = {
+				id: id,
+				realName: realName,
+				wechatNum: wechatNum,
+				wechatQrcode: wechatQrcode
+			};
+			setTimeout(() => {
+				uni.navigateTo({
+					url: '/pages/collection/collectionForm?id=3&name=' + this.$t('collection.text17') + '&list=0&item=' + encodeURIComponent(JSON.stringify(obj))
 				});
 			}, 1000);
 		},
@@ -318,6 +383,7 @@ export default {
 				this.$alert(this.$t('collection.text14'));
 				this.dataZFB = [];
 				this.dataYH = [];
+				this.dataWX = [];
 				this.getReceiveAccountListFunction();
 			}  else if(res.code === "500"){
 				uni.hideLoading();
@@ -333,6 +399,7 @@ export default {
 
 			if (res.code === '000') {
 				this.getReceiveStatisData = res.data;
+				this.getReceiveAccountListFunction();
 			} else if(res.code === "500"){
 				uni.hideLoading();
 				this.$alert(this.$t('collection.text600'))
@@ -341,6 +408,9 @@ export default {
 			}
 		},
 		async getReceiveAccountListFunction() {
+			this.dataZFB = [];
+			this.dataYH = [];
+			this.dataWX = [];
 			uni.showLoading({ title: this.$t('collection.text13'), mask: true });
 			let res = await api.getReceiveAccountListHttp({});
 			if (res.code === '000') {
@@ -350,8 +420,10 @@ export default {
 					for (var i = 0; i < res.data.length; i++) {
 						if (res.data[i].receiveAccountType == '1') {
 							this.dataZFB.push(res.data[i]);
-						} else {
+						} else if (res.data[i].receiveAccountType == '2') {
 							this.dataYH.push(res.data[i]);
+						} else {
+							this.dataWX.push(res.data[i]);
 						}
 					}
 					if (this.dataZFB.length == 0) {
@@ -364,11 +436,17 @@ export default {
 					} else {
 						this.listConfigS.noMsgS = false;
 					}
+					if (this.dataWX.length == 0) {
+						this.listConfigSS.noMsgSS = true;
+					} else {
+						this.listConfigSS.noMsgSS = false;
+					}
 					return;
 				}
 				if (res.data == '') {
 					this.listConfig.noMsg = true;
 					this.listConfigS.noMsgS = true;
+					this.listConfigSS.noMsgSS = true;
 					return;
 				}
 			} else if(res.code === "500"){
@@ -392,8 +470,22 @@ export default {
 			if (this.tabIndex === index) {
 				return;
 			}
+			console.log('ffff')
 			this.tabIndex = index;
-			this.tabsOpen = !this.tabsOpen;
+			if(index == 0){
+				this.tabsOpenyh = true;
+				this.tabsOpenzfb = false;
+				this.tabsOpenwx = false;
+			}else if(index == 1){
+				this.tabsOpenyh = false;
+				this.tabsOpenzfb = true;
+				this.tabsOpenwx = false;
+			}else if(index == 2){
+				this.tabsOpenyh = false;
+				this.tabsOpenzfb = false;
+				this.tabsOpenwx = true;
+			}
+			this.getReceiveAccountListFunction();
 		}
 	}
 };

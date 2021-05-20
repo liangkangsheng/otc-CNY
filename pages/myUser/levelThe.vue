@@ -20,7 +20,7 @@
 							<text class="name-text">{{ i18n.text2 }}</text>
 						</view>
 						<view class="name-box" v-if="getRealNameInfo.status == 2">
-							<text class="name-text">{{ realName }} {{ phone }}</text>
+							<text class="name-text">{{ realName }} {{ account }}</text>
 						</view>
 						<view class="title-user">
 							<text class="name-dj">Lv.{{ active + 1 }}</text>
@@ -96,7 +96,7 @@ export default {
 			getOrganVerifyInfo: {},
 			active: 0,
 			realName: '',
-			phone: '',
+			account: '',
 			list1: [
 				{
 					title: this.$t('levelThe.text20')
@@ -126,7 +126,7 @@ export default {
 		});
 		this.active = option.userLevel - 1;
 		this.realName = option.realName;
-		this.phone = option.phone;
+		this.account = option.account;
 		this.getRealNameInfoFunction();
 		this.getOrganVerifyInfoFunction();
 		this.getMarginFunction();

@@ -8,7 +8,8 @@
 		</view>
 		<view class="code-box">
 			<view class="code-title">{{ i18n.text1 }}</view>
-			<view class="phone">{{ i18n.text2 }}{{ phone }}</view>
+			<view v-if="regType == 0" class="phone">{{ i18n.text2 }}{{ phone }}</view>
+			<view v-if="regType == 1" class="phone">{{ i18n.text11 }}{{ email }}</view>
 		</view>
 		<view class="code-input-main">
 			<view class="inputLine">
@@ -43,6 +44,9 @@ export default {
 			code: '',
 			phone: '',
 			phones: '',
+			email: '',
+			emails: '',
+			regType: 0,
 			countdown: {
 				loginTime: 60,
 				loginTimer: null,
@@ -67,7 +71,10 @@ export default {
 		});
 		this.phone = option.tel;
 		this.phones = option.tel;
+		this.emails = option.email;
+		this.regType = option.type;
 		this.phone = this.phone.substr(0, 3) + '****' + this.phone.substr(7);
+		this.email = this.emails.substr(0, 6) + '****' + this.emails.substr(this.emails.length - 4, this.emails.length);
 		this.getCode();
 	},
 	mounted() {},
@@ -99,11 +106,21 @@ export default {
 		async getCode() {
 			uni.showLoading({ title: this.$t('verificationCode.text6'), mask: true });
 			const system_info = GET_STORAGE('system_info');
-			let res = await api.Login({
-				phone: this.phones,
-				smsType: 0,
-				lang: system_info.language
-			});
+			let res = null;
+			if(this.regType == 0) {
+				res = await api.sendSmsCode({
+					phone: this.phones,
+					nationCode: '86',
+					smsType: 0,
+					lang: system_info.language
+				});
+			} else if (this.regType == 1) {
+				res = await api.sendEmailCode({
+					email: this.emails,
+					smsType: 0,
+					lang: system_info.language
+				});
+			}
 			if (res.code === '000') {
 				uni.hideLoading();
 				this.$alert(this.$t('verificationCode.text06'));
@@ -120,18 +137,32 @@ export default {
 			// if (code.detail.value.length == 6) {
 				// var smsVerifyCode = code.detail.value;
 				const system_info = GET_STORAGE('system_info');
-				let res = await api.verifySmsCodeHttp({
-					smsType: '0',
-					phone: this.phones,
-					verificationCode: code,
-					lang: system_info.language
-				});
+				let res = null;
+				let phoneOrEmail = "phone";
+				if(this.regType == 0) {
+					res = await api.verifySmsCodeHttp({
+						smsType: '0',
+						phone: this.phones,
+						verificationCode: code,
+						lang: system_info.language
+					});
+				} else if (this.regType == 1) {
+					res = await api.verifyEmailCodeHttp({
+						smsType: '0',
+						email: this.emails,
+						verificationCode: code,
+						lang: system_info.language,
+					});
+					phoneOrEmail = "email";
+				}
 				if (res.code === '000') {
 					uni.showLoading({ title: this.$t('verificationCode.text10'), mask: true });
 					let res = await api.getUserToken({
 						loginType: '1',
 						phoneAccount: this.phones,
-						smsVerifyCode: code
+						emailAccount: this.emails,
+						smsVerifyCode: code,
+						phoneOrEmail: phoneOrEmail
 					});
 					if (res.code === '000') {
 						uni.hideLoading();
@@ -164,8 +195,9 @@ export default {
 		gohome() {
 			uni.showLoading({ title: this.$t('verificationCode.text7'), mask: true });
 			setTimeout(() => {
+				uni.hideLoading();
 				uni.switchTab({
-					url: '/pages/home/index'
+					url: '/pages/home/home'
 				});
 			}, 1000);
 			clearInterval(this.countdown.loginTimer);

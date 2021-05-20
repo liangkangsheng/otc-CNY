@@ -16,9 +16,15 @@ export function userRegistration(data) {
 		data:data,
 	});
 };
-// 发送验证码
-export function Login(data) {
+// 发送短信验证码
+export function sendSmsCode(data) {
     return http.post(`/base/sendSmsCode`, {
+	    data:data,
+    });
+}
+// 发送邮箱验证码
+export function sendEmailCode(data) {
+    return http.post(`/base/sendEmailCode`, {
 	    data:data,
     });
 }
@@ -28,15 +34,28 @@ export function getUserToken(data) {
 	    data:data,
     });
 }
-// 根据用户名密码校验用户
+// 根据手机号密码校验用户
 export function cheakUserHttp(data) {
-	return http.post(httpLink+`/user/cheakUser`, {
+	return http.post(httpLink+`/user/cheakUserByPhone`, {
+		data:data,
+	});
+};
+// 根据邮箱密码校验用户
+export function cheakUserByEmail(data) {
+	return http.post(httpLink+`/user/cheakUserByEmail`, {
 		data:data,
 	});
 };
 // 校验短信验证码
 export function verifySmsCodeHttp(data) {
 	return http.post(`/base/verifySmsCode`, {
+		data:data,
+	});
+};
+
+// 校验邮箱验证码
+export function verifyEmailCodeHttp(data) {
+	return http.post(`/base/verifyEmailCode`, {
 		data:data,
 	});
 };

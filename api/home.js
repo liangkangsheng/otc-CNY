@@ -82,3 +82,33 @@ export function getLatestVersionHttp(data) {
 		}
 	});
 }
+
+// 获取挂买单列表
+export function getAutoSettingBuyList(data) {
+	return http.post(`/base/getAutoSettingBuyList`, {
+		data: data,
+		header: {
+			'user-token': GET_STORAGE('token') || ''
+		}
+	});
+}
+
+// 获取挂卖单列表
+export function getAutoSettingSaleList(data) {
+	return http.post(`/base/getAutoSettingSaleList`, {
+		data: data,
+		header: {
+			'user-token': GET_STORAGE('token') || ''
+		}
+	});
+}
+
+// 获取图片列表
+export function getSysCarouselsList(data) {
+	return http.get(`/base/getSysCarouselsList`, {
+		data: data,
+		header: {
+			'user-token': GET_STORAGE('token') || ''
+		}
+	});
+}

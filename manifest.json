@@ -1,9 +1,9 @@
 {
-    "name" : "GOLDOTC",
-    "appid" : "__UNI__D10EF76",
+    "name" : "demo",
+    "appid" : "__UNI__E2300A3",
     "description" : "",
-    "versionName" : "1.0.2",
-    "versionCode" : 102,
+    "versionName" : "1.0.5",
+    "versionCode" : 105,
     "transformPx" : false,
     /* 5+App特有相关 */
     "app-plus" : {
@@ -72,71 +72,71 @@
             },
             "icons" : {
                 "android" : {
-                    "hdpi" : "unpackage/res/icons/72x72.png",
-                    "xhdpi" : "unpackage/res/icons/96x96.png",
-                    "xxhdpi" : "unpackage/res/icons/144x144.png",
-                    "xxxhdpi" : "unpackage/res/icons/192x192.png"
+                    "hdpi" : "F:/oct/图片/icon/Android/72X72.png",
+                    "xhdpi" : "F:/oct/图片/icon/Android/96X96.png",
+                    "xxhdpi" : "F:/oct/图片/icon/Android/144X144.png",
+                    "xxxhdpi" : "F:/oct/图片/icon/Android/192X192.png"
                 },
                 "ios" : {
-                    "appstore" : "unpackage/res/icons/1024x1024.png",
+                    "appstore" : "F:/oct/图片/icon/Android/1024X1024.png",
                     "ipad" : {
-                        "app" : "unpackage/res/icons/76x76.png",
-                        "app@2x" : "unpackage/res/icons/152x152.png",
-                        "notification" : "unpackage/res/icons/20x20.png",
-                        "notification@2x" : "unpackage/res/icons/40x40.png",
-                        "proapp@2x" : "unpackage/res/icons/167x167.png",
-                        "settings" : "unpackage/res/icons/29x29.png",
-                        "settings@2x" : "unpackage/res/icons/58x58.png",
-                        "spotlight" : "unpackage/res/icons/40x40.png",
-                        "spotlight@2x" : "unpackage/res/icons/80x80.png"
+                        "app" : "F:/oct/图片/icon/Android/76x76.png",
+                        "app@2x" : "F:/oct/图片/icon/Android/152x152.png",
+                        "notification" : "F:/oct/图片/icon/Android/20x20.png",
+                        "notification@2x" : "F:/oct/图片/icon/Android/40x40.png",
+                        "proapp@2x" : "F:/oct/图片/icon/Android/167x167.png",
+                        "settings" : "F:/oct/图片/icon/Android/29x29.png",
+                        "settings@2x" : "F:/oct/图片/icon/Android/58x58.png",
+                        "spotlight" : "F:/oct/图片/icon/Android/40x40.png",
+                        "spotlight@2x" : "F:/oct/图片/icon/Android/80x80.png"
                     },
                     "iphone" : {
-                        "app@2x" : "unpackage/res/icons/120x120.png",
-                        "app@3x" : "unpackage/res/icons/180x180.png",
-                        "notification@2x" : "unpackage/res/icons/40x40.png",
-                        "notification@3x" : "unpackage/res/icons/60x60.png",
-                        "settings@2x" : "unpackage/res/icons/58x58.png",
-                        "settings@3x" : "unpackage/res/icons/87x87.png",
-                        "spotlight@2x" : "unpackage/res/icons/80x80.png",
-                        "spotlight@3x" : "unpackage/res/icons/120x120.png"
+                        "app@2x" : "F:/oct/图片/icon/Android/120x120.png",
+                        "app@3x" : "F:/oct/图片/icon/Android/180x180.png",
+                        "notification@2x" : "F:/oct/图片/icon/iOS/icon-20@2x-ipad.png",
+                        "notification@3x" : "F:/oct/图片/icon/Android/60x60.png",
+                        "settings@2x" : "F:/oct/图片/icon/Android/58x58.png",
+                        "settings@3x" : "F:/oct/图片/icon/Android/87x87.png",
+                        "spotlight@2x" : "F:/oct/图片/icon/Android/80x80.png",
+                        "spotlight@3x" : "F:/oct/图片/icon/Android/120x120.png"
                     }
                 }
             },
             "splashscreen" : {
                 "androidStyle" : "default",
-                "iosStyle" : "storyboard",
+                "iosStyle" : "default",
                 "android" : {
-                    "hdpi" : "common/boot/android/img1.9.png",
-                    "xhdpi" : "common/boot/android/img2.9.png",
-                    "xxhdpi" : "common/boot/android/img3.9.png"
+                    "hdpi" : "common/boot/android/482X764.png",
+                    "xhdpi" : "common/boot/android/722X1244.png",
+                    "xxhdpi" : "common/boot/android/1082X1884.png"
                 },
                 "ios" : {
                     "iphone" : {
-                        "portrait-896h@3x" : "common/boot/ios/img1.png",
-                        "landscape-896h@3x" : "common/boot/ios/img2.png",
-                        "portrait-896h@2x" : "common/boot/ios/img3.png",
-                        "landscape-896h@2x" : "common/boot/ios/img4.png",
-                        "iphonex" : "common/boot/ios/img5.png",
-                        "iphonexl" : "common/boot/ios/img6.png",
-                        "retina55" : "common/boot/ios/img7.png",
-                        "retina55l" : "common/boot/ios/img8.png",
-                        "retina47" : "common/boot/ios/img9.png",
-                        "retina47l" : "common/boot/ios/img10.png",
-                        "retina40" : "common/boot/ios/img11.png",
-                        "retina40l" : "common/boot/ios/img12.png",
-                        "retina35" : "common/boot/ios/img13.png"
+                        "portrait-896h@3x" : "common/boot/ios/1242X2688.png",
+                        "landscape-896h@3x" : "common/boot/ios/2688X1242.png",
+                        "portrait-896h@2x" : "common/boot/ios/828X1792.png",
+                        "landscape-896h@2x" : "common/boot/ios/1792X828.png",
+                        "iphonex" : "common/boot/ios/1125X2436.png",
+                        "iphonexl" : "common/boot/ios/2436X1125.png",
+                        "retina55" : "common/boot/ios/1242X2208.png",
+                        "retina55l" : "common/boot/ios/2208X1242.png",
+                        "retina47" : "common/boot/ios/750X1334.png",
+                        "retina47l" : "common/boot/ios/1334X750.png",
+                        "retina40" : "common/boot/ios/640X1136.png",
+                        "retina40l" : "common/boot/ios/1136X640.png",
+                        "retina35" : "common/boot/ios/640X960.png"
                     },
                     "ipad" : {
-                        "portrait-1366h@2x" : "common/boot/ipad/img1.png",
-                        "landscape-1366h@2x" : "common/boot/ipad/img2.png",
-                        "portrait-1194h@2x" : "common/boot/ipad/img3.png",
-                        "landscape-1194h@2x" : "common/boot/ipad/img4.png",
-                        "portrait-1112h@2x" : "common/boot/ipad/img5.png",
-                        "landscape-1112h@2x" : "common/boot/ipad/img6.png",
-                        "portrait-retina7" : "common/boot/ipad/img7.png",
-                        "landscape-retina7" : "common/boot/ipad/img8.png",
-                        "portrait7" : "common/boot/ipad/img9.png",
-                        "landscape7" : "common/boot/ipad/img10.png"
+                        "portrait-1366h@2x" : "common/boot/ipad/2048X2732.png",
+                        "landscape-1366h@2x" : "common/boot/ipad/2732X2048.png",
+                        "portrait-1194h@2x" : "common/boot/ipad/1668X2388.png",
+                        "landscape-1194h@2x" : "common/boot/ipad/2388X1668.png",
+                        "portrait-1112h@2x" : "common/boot/ipad/1668X2224.png",
+                        "landscape-1112h@2x" : "common/boot/ipad/2224X1668.png",
+                        "portrait-retina7" : "common/boot/ipad/1536X2048.png",
+                        "landscape-retina7" : "common/boot/ipad/2048X1536.png",
+                        "portrait7" : "common/boot/ipad/768X1024.png",
+                        "landscape7" : "common/boot/ipad/1024X768.png"
                     },
                     "storyboard" : "common/boot/ios/CustomStoryboard.zip"
                 }
@@ -170,10 +170,10 @@
         "enable" : false
     },
     "h5" : {
-        "title" : "GOLDOTC",
+        "title" : "demo",
         "router" : {
             "mode" : "history",
-            "base" : "OTC"
+            "base" : "./"
         },
         "optimization" : {
             "treeShaking" : {
@@ -181,8 +181,8 @@
             }
         },
         "devServer" : {
-            "port" : 81
+            "port" : 82
         },
-        "domain" : "18.177.251.246"
+        "domain" : "127.0.0.1"
     }
 }

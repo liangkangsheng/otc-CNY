@@ -296,6 +296,9 @@ export default {
 			text39 :"Click to sell means to agree to the",
 			text039 :"One-click Sales Agreement",
 			text40:"no nactive",//2021-1-8
+			text41:" begin",
+			text42:" begin",
+			text43:"Max",
 			text600:"The server is requesting an exception. Please try again later"//2021-1.22
 		},
 		/* 登录  设置密码 */
@@ -320,7 +323,7 @@ export default {
 			text5 :"Get captcha ",
 			text05:"Resend the verification code",
 			text6 :"Have read and agreed to the ",
-			text06:"GOLDOTC registration Agreement ",
+			text06:"mayibet registration Agreement ",
 			text7: "registered",
 			text8 :"Login with existing account directly ",
 			text08:"Please do not repeatedly click send captcha",
@@ -330,7 +333,7 @@ export default {
 			text12 :"Please confirm password ",
 			text13 :"The two passwords are inconsistent, please confirm the password ",
 			text14 :"Please enter SMS verification code ",
-			text15 :"Please check GOLDOTC registration Agreement ",
+			text15 :"Please check mayibet registration Agreement ",
 			text16 :"Loading ",
 			text17 :"Registered successfully",
 			text013:"Send in the",
@@ -436,8 +439,8 @@ export default {
 			text0012:"The application has been submitted for review",
 			text0013:"Refund deposit",
 			text01 :" Certification and Management Measures for Merchants ",
-			text02 :" Application method for OTC Transaction Area Certified Merchant :",
-			text03 :"OTC certified merchants can only apply online. XXX will strictly screen the applicants and will inform you of the application results via SMS or email within 3 working days upon meeting the application criteria.",
+			text02 :" Application method for mayibet Transaction Area Certified Merchant :",
+			text03 :"mayibet certified merchants can only apply online. XXX will strictly screen the applicants and will inform you of the application results via SMS or email within 3 working days upon meeting the application criteria.",
 			text04 :" Application link: https://www.",
 			text05 :" Application conditions :",
 			text06 :" 1. Apply for certification for the first time ",
@@ -455,7 +458,7 @@ export default {
 			text018 :"3) Order completion rate not less than 90%;",
 			text019 :"4) 10,000 USDT in the legal currency account as the merchant's deposit (we must guarantee 10,000 USDT in the legal currency account as the merchant's deposit within 1 working day after receiving the email notification from the customer service, otherwise we will be disqualified).",
 			text020 :" Note: For users who have already applied for a new account with a verified merchant account, the new merchant account will be jointly and severally liable for any problems encountered by the original merchant account during the transaction.",
-			text021 :"OTC Transaction Area Certified Merchant Clearance Rules :",
+			text021 :"mayibet Transaction Area Certified Merchant Clearance Rules :",
 			text022 :"1) Completion rate below 90%",
 			text023 :"2) The average putting time is more than 30 minutes;",
 			text024 :"3) Malicious cancellation (the responsible party is the certified merchant) more than 3 times in the past month;",
@@ -466,7 +469,7 @@ export default {
 			text029 :"8) The merchant management group released advertisements, three warnings without results;",
 			text030 :" Merchants that do not conform to any of the above rules will be returned periodically ",
 			text031 :" Note: Malicious cancellation refers to an order that has not been paid but has been clicked and cancelled.",
-			text032 :" Ways for an OTC Transaction Area certified merchant to voluntarily remove :",
+			text032 :" Ways for an mayibet Transaction Area certified merchant to voluntarily remove :",
 			text033 :" Apply for the unauthenticated merchant identity through online application. The application link: https://www.xxxx will be notified by mail within 5 working days, and the re-application will not be allowed within 3 months after the unauthenticated merchant identity.",
 		    text600:"The server is requesting an exception. Please try again later"//2021-1.22
 		},
@@ -550,7 +553,12 @@ export default {
 			text0024 :" Google validation enabled",
 			text181:"Save the QR code",
 			text009:"Save success",
-			text100:"Distribution level"
+			text100:"Distribution level",
+			text102:"Online Service",
+			text103:"Gold",
+			text104:"Platinum",
+			text105:"Diamond",
+			text106:"Exclusive",
 		},
 		// 实名认证
 		RealName:{
@@ -854,7 +862,7 @@ export default {
 			text29:"Loading",
 			text30:"Cancel order successfully",
 			text31:"Payment successful",
-			text025:"Contact seller",
+			text025:"Online Service",
 			text019:"When turning bank card, do not note to buy and sell money, otherwise capital freezes consequence conceit",
 			text020:"Remark：",
 			text600:"The server is requesting an exception. Please try again later",//2021-1.22

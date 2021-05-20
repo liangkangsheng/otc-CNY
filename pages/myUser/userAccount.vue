@@ -16,14 +16,14 @@
 					<view class="account-list height border-bottom">
 						<text class="pull-left">{{ i18n.text1 }}</text>
 						<uni-icons type="arrowright" size="16" class="form-clear-icon arrowright pull-right"></uni-icons>
-						<text class="pull-right trit">{{ i18n.text2 }}</text>
+						<text class="pull-right trit">{{ (phone == null || phone == "")?i18n.text6:i18n.text2 }}</text>
 					</view>
 				</navigator>
 				<navigator url="/pages/myUser/email">
 					<view class="account-list height border-bottom">
 						<text class="pull-left">{{ i18n.text03 }}</text>
 						<uni-icons type="arrowright" size="16" class="form-clear-icon arrowright pull-right"></uni-icons>
-						<text class="pull-right trit">{{ email == null?i18n.text6:i18n.text2 }}</text>
+						<text class="pull-right trit">{{ (email == null || email == "")?i18n.text6:i18n.text2 }}</text>
 					</view>
 				</navigator>
 				<navigator url="/pages/myUser/userLogin">
@@ -54,7 +54,8 @@ export default {
 	data() {
 		return {
 			isPayPwd: '',
-			email:GET_STORAGE('email')
+			email: GET_STORAGE('email'),
+			phone: GET_STORAGE('phone')
 		};
 	},
 	computed: {

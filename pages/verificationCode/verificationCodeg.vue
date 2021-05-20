@@ -16,7 +16,7 @@
 			</view>
 			<!-- <input @input="inputEvent" class="code-input-input" v-model="code" maxlength="6" type="number" /> -->
 		</view>
-		<!-- ä¸Šä¼  -->
+		<!-- ÉÏ´« -->
 		<!-- <view class="code-button" @click="getCodeButton">
 			<text class="uni-panel-text code-btn">{{ countdown.loginTime == 60 ? countdown.countTitle : countdown.loginTime + 's' + this.$t('verificationCode.text3') }}</text>
 		</view> -->
@@ -36,6 +36,8 @@ export default {
 			code: '',
 			phone: '',
 			phones: '',
+			emails: '',
+			regType: 0,
 			countdown: {
 				loginTime: 60,
 				loginTimer: null,
@@ -60,6 +62,8 @@ export default {
 		});
 		// this.phone = option.tel;
 		this.phones = option.tel;
+		this.emails = option.email;
+		this.regType = option.type;
 		// this.phone = this.phone.substr(0, 3) + '****' + this.phone.substr(7);
 		// this.getCode();
 	},
@@ -118,10 +122,16 @@ export default {
 				// });
 				// if (res.code === '000') {
 					uni.showLoading({ title: this.$t('verificationCode.text10'), mask: true });
+					let phoneOrEmail = "phone";
+					if(this.regType == 1) {
+						phoneOrEmail = "email";
+					}
 					let res = await api.getUserToken({
 						loginType: '3',
 						phoneAccount: this.phones,
-						googleVerifyCode: code
+						emailAccount: this.emails,
+						googleVerifyCode: code,
+						phoneOrEmail: phoneOrEmail
 					});
 					if (res.code === '000') {
 						uni.hideLoading();
@@ -153,8 +163,9 @@ export default {
 		gohome() {
 			uni.showLoading({ title: this.$t('verificationCode.text7'), mask: true });
 			setTimeout(() => {
+				uni.hideLoading();
 				uni.switchTab({
-					url: '/pages/home/index'
+					url: '/pages/home/home'
 				});
 			}, 1000);
 		}

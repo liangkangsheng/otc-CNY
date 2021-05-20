@@ -13,6 +13,9 @@
  */
 
 /* 颜色变量 */
+$uni-color-upper: #00aa00;
+$uni-color-lower: #ff0000;
+
 $uni-base-color: #fff;
 $uni-base-color-06b572:#06b572;
 $uni-base-color-de6334:#de6334;
@@ -81,3 +84,18 @@ $uni-font-size-paragraph:30rpx;
 
 /* 头部标题文字颜色 */
  $uni-color-header: #fff; // 文章标题颜色
+ 
+ /*  COPY */
+ $font-sm: 24upx;
+ $font-md: 30upx;
+ $font-lg: 34upx;
+ $font-xl: 40upx;
+ $font-xxl: 50upx;
+ 
+ $font-base: 28upx;
+ $font-color-disabled: #C0C4CC;
+ $uni-color-gap: #EEF2F5;
+ $font-color-light: #8B9FAA;
+ $uni-color-upper: #00b45a;
+ $uni-color-lower: #ff6059;
+ $font-color-dark: #14191F;

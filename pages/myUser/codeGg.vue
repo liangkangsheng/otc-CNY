@@ -10,7 +10,7 @@
 		</view>
 		<view class="content">
 			<image src="../../common/logo/logo.png" mode="" class="logo-img"></image>
-			<p class="app-Name">GOLDOTC{{i18n.text2}}</p>
+			<p class="app-Name">mayibet{{i18n.text2}}</p>
 			<view class="QrCode"><image :src="imageUrl" mode=""></image></view>
 			<view class="userCode">
 				{{ i18n.text1 }}

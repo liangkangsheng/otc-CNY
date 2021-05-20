@@ -1,0 +1,838 @@
+{
+	"getAutoSettingBuyList": {
+		"data": {
+			"records": [{
+					"uid": "c3f0f68a3225f6b17aedb493be4929f6",
+					"userCode": "BZ002188",
+					"nickName": "BZ002188",
+					"createTime": "2021-05-03 00:36:01",
+					"coinSymbol": "USDT",
+					"aliPayPrice": null,
+					"aliPayLimit": null,
+					"bankPayPrice": 6.6,
+					"bankPayLimit": 2,
+					"wechatPayPrice": null,
+					"wechatPayLimit": null,
+					"payType": "2",
+					"status": "1",
+					"buyCount": 2900,
+					"buyAlready": 0,
+					"userBuyId": 273
+				},
+				{
+					"uid": "333ac03597878a251d8a95dc7feda113",
+					"userCode": "BZ680633",
+					"nickName": "BZ680633",
+					"createTime": "2021-04-28 21:38:26",
+					"coinSymbol": "USDT",
+					"aliPayPrice": null,
+					"aliPayLimit": null,
+					"bankPayPrice": 6.55,
+					"bankPayLimit": 50000,
+					"wechatPayPrice": null,
+					"wechatPayLimit": null,
+					"payType": "2",
+					"status": "1",
+					"buyCount": 50000,
+					"buyAlready": 0,
+					"userBuyId": 257
+				},
+				{
+					"uid": "7356e10f7dc712ca30b4214aa493c148",
+					"userCode": "BZ591947",
+					"nickName": "BZ591947",
+					"createTime": "2021-04-28 21:34:02",
+					"coinSymbol": "USDT",
+					"aliPayPrice": null,
+					"aliPayLimit": null,
+					"bankPayPrice": 6.51,
+					"bankPayLimit": 49999,
+					"wechatPayPrice": null,
+					"wechatPayLimit": null,
+					"payType": "2",
+					"status": "1",
+					"buyCount": 5700,
+					"buyAlready": 0,
+					"userBuyId": 253
+				}
+			],
+			"total": 3,
+			"size": 10,
+			"current": 1,
+			"orders": [],
+			"searchCount": true,
+			"pages": 1
+		},
+		"code": "000"
+	},
+	"queryNotice": {
+		"data": {
+			"records": [{
+					"id": 7,
+					"title": "版本更新通知",
+					"descVal": "关于4.22号版本更新通知",
+					"createTime": "2021-04-25 19:19:40"
+				},
+				{
+					"id": 6,
+					"title": "上线公告",
+					"descVal": "关于2021.4.15上线公告",
+					"createTime": "2021-04-08 17:15:29"
+				}
+			],
+			"total": 2,
+			"size": 100,
+			"current": 1,
+			"orders": [],
+			"searchCount": true,
+			"pages": 1
+		},
+		"code": "000"
+	},
+	"getSysCarouselsList": {
+		"data": [{
+				"url": "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3767017447,3027799514&fm=26&gp=0.jpg",
+				"status": 0,
+				"createTime": "2020-11-13 11:34:10"
+			},
+			{
+				"url": "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3529102956,3606897574&fm=26&gp=0.jpg",
+				"type": 1
+			},
+			{
+				"url": "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=327920793,354665743&fm=26&gp=0.jpg",
+				"description": "测试"
+			},
+			{
+				"url": "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3378589883,1606072968&fm=26&gp=0.jpg",
+				"description": "会员注册"
+			}
+		],
+		"code": "000"
+	},
+	"getAutoSettingSaleList": {
+		"data": {
+			"records": [{
+					"uid": "c3f0f68a3225f6b17aedb493be4929f6",
+					"userCode": "BZ002188",
+					"nickName": "BZ002188",
+					"createTime": "2021-05-07 23:29:53",
+					"coinSymbol": "USDT",
+					"aliPayPrice": null,
+					"bankPayPrice": 6.99,
+					"wechatPayPrice": null,
+					"payType": "2",
+					"status": "1",
+					"userSaleId": 279,
+					"saleAlready": 799,
+					"saleCount": 2900
+				},
+				{
+					"uid": "7356e10f7dc712ca30b4214aa493c148",
+					"userCode": "BZ591947",
+					"nickName": "BZ591947",
+					"createTime": "2021-04-27 21:40:29",
+					"coinSymbol": "USDT",
+					"aliPayPrice": null,
+					"bankPayPrice": 7.8,
+					"wechatPayPrice": null,
+					"payType": "2",
+					"status": "1",
+					"userSaleId": 263,
+					"saleAlready": 0,
+					"saleCount": 0.78
+				}
+			],
+			"total": 2,
+			"size": 10,
+			"current": 1,
+			"orders": [],
+			"searchCount": true,
+			"pages": 1
+		},
+		"code": "000"
+	},
+	"getUSDTPrice": {
+		"data": {
+			"minBuyAmt": "1500",
+			"usdtPrice": "6.533",
+			"minBuyOrderAmt": "1500",
+			"minSaleCount": "700",
+			"minBuyCount": "700",
+			"minBuyOrderCount": "800",
+			"minSaleAmt": "1000",
+			"minSaleOrderAmt": "1000",
+			"minSaleOrderCount": "800"
+		},
+		"code": "000"
+	},
+	"getMyAssetsItem": {
+		"data": {
+			"coinSymbol": "USDT",
+			"walletBalance": 19.852508,
+			"walletFrozenBalance": 2123.01,
+			"convertMoney": 129.6964
+		},
+		"code": "000"
+	},
+	"getAutoSettingBuy": {
+		"data": {
+			"buyCount": 2900,
+			"payType": "2",
+			"aliPayPrice": null,
+			"aliPayLimit": null,
+			"bankPayPrice": 6.6,
+			"bankPayLimit": 2,
+			"status": "1"
+		},
+		"code": "000"
+	},
+	"getAutoSettingPage": {
+		"data": {
+			"records": [{
+					"buyStatus": "1",
+					"createTime": "2021-05-03 00:36:01",
+					"buyCount": 2900,
+					"buyAlready": 0,
+					"lastBuyCount": 2900,
+					"status": "1",
+					"closeTime": null,
+					"userCode": "BZ002188",
+					"uid": "c3f0f68a3225f6b17aedb493be4929f6",
+					"buyId": 273
+				},
+				{
+					"buyStatus": "1",
+					"createTime": "2021-05-03 00:19:21",
+					"buyCount": 2900,
+					"buyAlready": 0,
+					"lastBuyCount": 2900,
+					"status": "2",
+					"closeTime": "2021-05-03 00:22:05",
+					"userCode": "BZ002188",
+					"uid": "c3f0f68a3225f6b17aedb493be4929f6",
+					"buyId": 271
+				}
+			],
+			"total": 2,
+			"size": 10,
+			"current": 1,
+			"orders": [],
+			"searchCount": true,
+			"pages": 1
+		},
+		"code": "000"
+	},
+	"getOrderList": {
+		"data": {
+			"records": [{
+					"price": 6.99,
+					"saleCount": 15.879828,
+					"saleAmount": 111,
+					"tradeCode": "1000000060032347",
+					"buyerCode": "BZ851929",
+					"buyerNickName": "BZ851929",
+					"saleDetailId": 281,
+					"amount": 6585.01,
+					"count": 899,
+					"coinSymbol": "USDT",
+					"createTime": "2021-05-07 23:30:17",
+					"orderId": 287,
+					"status": "1",
+					"type": "1",
+					"userName": "寒"
+				},
+				{
+					"price": 6.99,
+					"saleCount": 15.879828,
+					"saleAmount": 111,
+					"tradeCode": "1000000060032347",
+					"buyerCode": "BZ851929",
+					"buyerNickName": "BZ851929",
+					"saleDetailId": 282,
+					"amount": 5285.01,
+					"count": 1000,
+					"coinSymbol": "USDT",
+					"createTime": "2021-05-07 23:30:17",
+					"orderId": 288,
+					"status": "4",
+					"type": "1",
+					"userName": "寒"
+				},
+				{
+					"price": 6.99,
+					"saleCount": 15.879828,
+					"saleAmount": 111,
+					"createTime": "2021-04-29 16:27:26",
+					"tradeCode": "1000001901609129",
+					"status": "2",
+					"buyerCode": "BZ851929",
+					"buyerNickName": "BZ851929",
+					"saleDetailId": 98,
+					"amount": 5598.55,
+					"count": 799,
+					"coinSymbol": "USDT",
+					"orderId": 281,
+					"type": "2",
+					"userName": "寒"
+				},
+				{
+					"price": 6.99,
+					"saleCount": 42.918455,
+					"saleAmount": 300,
+					"createTime": "2021-04-29 16:26:59",
+					"tradeCode": "1000000742546346",
+					"buyerCode": "BZ737411",
+					"buyerNickName": "BZ737411",
+					"saleDetailId": 211,
+					"amount": 5585.01,
+					"count": 799,
+					"coinSymbol": "USDT",
+					"orderId": 344,
+					"status": "3",
+					"type": "2",
+					"userName": "寒"
+				}
+			],
+			"total": 4,
+			"size": 10,
+			"current": 1,
+			"orders": [],
+			"searchCount": true,
+			"pages": 1
+		},
+		"code": "000"
+	},
+	"getOrderInfo": {
+		"data": {
+			"saleAmount": 111,
+			"saleCount": 15.879828,
+			"price": 6.99,
+			"tradeCode": "1000000060032347",
+			"createTime": "2021-04-29 16:29:16",
+			"buyUserNickName": "BZ851929",
+			"buyUserRealName": "寒",
+			"receiveType": "2",
+			"buyUserPhone": "13068730905"
+		},
+		"code": "000"
+	},
+	"getUserInfo": {
+		"data": {
+			"nickName": "BZ002188",
+			"phoneAccount": "158****8888",
+			"userLevel": 3,
+			"code": "BZ002188",
+			"isPayPwd": "1",
+			"emailAddress": null,
+			"emailVerified": "0",
+			"ownerInvitationCode": "zyeow1",
+			"qrCodeInfo": "https://tool.oschina.net/action/qrcode/generate?size=4",
+			"googleVerify": "1",
+			"distributionLevel": "1",
+			"isBindGoogleVerify": "1",
+			"emailAccount": null,
+			"regType": "1"
+		},
+		"code": "000"
+	},
+	"getReceiveAccountList": {
+		"data": [
+			{
+				"id": 85,
+				"uid": "c3f0f68a3225f6b17aedb493be4929f6",
+				"receiveAccountType": "2",
+				"realName": "发了",
+				"alipayNum": null,
+				"alipayQrcode": null,
+				"bankNum": "6228745625452563523",
+				"bankName": "同",
+				"bankAddress": "拖拉机",
+				"activeStatus": "1",
+				"createTime": "2021-04-26 12:47:30",
+				"delStatus": "1",
+				"delTime": null,
+				"wechatNum": null,
+				"wechatQrcode": null
+			},
+			{
+				"id": 87,
+				"uid": "c3f0f68a3225f6b17aedb493be4929f6",
+				"receiveAccountType": "2",
+				"realName": "哦哟",
+				"alipayNum": null,
+				"alipayQrcode": null,
+				"bankNum": "6968689626869923595",
+				"bankName": "你自己",
+				"bankAddress": "心里",
+				"activeStatus": "1",
+				"createTime": "2021-04-28 13:19:47",
+				"delStatus": "1",
+				"delTime": null,
+				"wechatNum": null,
+				"wechatQrcode": null
+			}
+		],
+		"code": "000"
+	},
+	"getRealNameInfo": {
+		"data": {
+			"id": 71,
+			"uid": "c3f0f68a3225f6b17aedb493be4929f6",
+			"realName": "花花",
+			"cardNo": "350203199909090909",
+			"positiveCardPath": "/api/file/pic/20210426/202104260035000562227.PNG",
+			"negativeCardPath": "/api/file/pic/20210426/202104260036000028676.PNG",
+			"holdingCardPath": "/api/file/pic/20210426/202104260036000105874.PNG",
+			"status": "1",
+			"remark": "",
+			"type": "1",
+			"createTime": "2021-04-26 00:36:14",
+			"country": "中国"
+		},
+		"code": "000"
+	},
+	"getOrganVerifyInfo": {
+		"data": {
+			"id": 37,
+			"uid": "c3f0f68a3225f6b17aedb493be4929f6",
+			"organType": "1",
+			"organName": "咯啦",
+			"organCode": "88885",
+			"officeAddress": "最",
+			"regAddress": "努力",
+			"legalPersonName": "花花",
+			"legalPersonPhone": "15888888888",
+			"positiveCardPath": "/api/file/pic/20210426/202104261246000317484.jpg",
+			"negativeCardPath": "/api/file/pic/20210426/202104261246000399934.PNG",
+			"holdingCardPath": "/api/file/pic/20210426/202104261246000475672.PNG",
+			"holdingLicensePath": "/api/file/pic/20210426/202104261246000592395.JPG",
+			"status": "1",
+			"createTime": "2021-04-26 12:47:02",
+			"remark": ""
+		},
+		"code": "000"
+	},
+	"getMarginInfo": {
+		"data": {
+			"id": 23,
+			"uid": "c3f0f68a3225f6b17aedb493be4929f6",
+			"marginCount": 1,
+			"status": "1",
+			"createTime": "2021-04-28 21:42:23",
+			"remark": null,
+			"applyTime": null
+		},
+		"code": "000"
+	},
+	"getLevelList": {
+		"data": [{
+				"id": 1,
+				"name": "等级一",
+				"userLevel": 1,
+				"cashAmountLimit": 0,
+				"tradeLimit": 0
+			},
+			{
+				"id": 2,
+				"name": "等级二",
+				"userLevel": 2,
+				"cashAmountLimit": 50000,
+				"tradeLimit": 50000
+			},
+			{
+				"id": 3,
+				"name": "等级三",
+				"userLevel": 3,
+				"cashAmountLimit": 1000000,
+				"tradeLimit": 1000000
+			}
+		],
+		"code": "000"
+	},
+	"getSysConfigList": {
+		"data": [{
+			"id": 1,
+			"configKey": "cancel_order_count",
+			"configVal": "5",
+			"remark": "可取消订单次数"
+		}],
+		"code": "000"
+	},
+	"getItemList": {
+		"data": {
+			"records": [{
+					"id": "2ae7205861184ebdbef85ea79047cade",
+					"title": "测试项目",
+					"itemDesc": "从vv访问撒反对",
+					"img": "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1533252468,3210612504&fm=26&gp=0.jpg",
+					"itemtype": 1,
+					"itemtypeName": "云算力",
+					"total": 2000,
+					"rate": 2.3,
+					"percent": 30,
+					"itemDay": 180,
+					"type": 3,
+					"typeName": "每月返息，到期还本",
+					"min": 2000,
+					"max": 30000,
+					"red": 3,
+					"invest1": 1,
+					"invest2": 0.7,
+					"invest3": null,
+					"invest4": null,
+					"invest5": null,
+					"invest6": null,
+					"invest7": null,
+					"invest8": null,
+					"num": 1,
+					"itemLimit": 0,
+					"prize": 1,
+					"integral": 1,
+					"sort": 2,
+					"itemValue": 4,
+					"guarantee": "中国平安",
+					"content": "<p>啊顺丰到付出现在v哇饿温热出现在尴尬他</p>",
+					"jfbl": "2",
+					"time": "2021-05-06 16:53:47"
+				},
+				{
+					"id": "921930e625dcc7e57bcac3e6253c16b6",
+					"title": "【1元购】58元现金券新注册会员专用项目",
+					"itemDesc": "",
+					"img": "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2295145987,843031223&fm=26&gp=0.jpg",
+					"itemtype": 2,
+					"itemtypeName": "合约",
+					"total": 1111,
+					"rate": 1.7,
+					"percent": 68.75,
+					"itemDay": 66,
+					"type": 1,
+					"typeName": "每日返息，到期还本",
+					"min": 1,
+					"max": 5900,
+					"red": 0,
+					"invest1": 1,
+					"invest2": 0.5,
+					"invest3": 0,
+					"invest4": 0,
+					"invest5": 0,
+					"invest6": 0,
+					"invest7": 0,
+					"invest8": 0,
+					"num": 1,
+					"itemLimit": 0,
+					"prize": 0,
+					"integral": 1,
+					"sort": 5,
+					"itemValue": 0,
+					"guarantee": "中國太平洋保險（香港）有限公司",
+					"content": "",
+					"jfbl": "1",
+					"time": "2019-10-30 16:55:30"
+				}
+			],
+			"total": 2,
+			"size": 100,
+			"current": 1,
+			"orders": [],
+			"searchCount": true,
+			"pages": 1
+		},
+		"code": "000"
+	},
+	"getItemDetail": {
+		"data": {
+			"id": "2ae7205861184ebdbef85ea79047cade",
+			"title": "测试项目",
+			"itemDesc": "从vv访问撒反对",
+			"img": "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2295145987,843031223&fm=26&gp=0.jpg",
+			"itemtype": 1,
+			"itemtypeName": "云算力",
+			"total": 2000,
+			"rate": 2.3,
+			"percent": 30,
+			"itemDay": 180,
+			"type": 3,
+			"typeName": "每月返息，到期还本",
+			"min": 2000,
+			"max": 30000,
+			"red": 3,
+			"invest1": 1,
+			"invest2": 0.7,
+			"invest3": null,
+			"invest4": null,
+			"invest5": null,
+			"invest6": null,
+			"invest7": null,
+			"invest8": null,
+			"num": 1,
+			"itemLimit": 0,
+			"prize": 1,
+			"integral": 1,
+			"sort": 2,
+			"itemValue": 4,
+			"guarantee": "中国平安",
+			"content": "<p>啊顺丰到付出现在v哇饿温热出现在尴尬他</p>",
+			"jfbl": "2",
+			"time": "2021-05-06 16:53:47"
+		},
+		"code": "000"
+	},
+	"getReceiveStatis": {
+		"data": {
+			"receiveAmount": 332,
+			"payAmount": 5333,
+			"payCount": 444,
+			"receiveCount": 1111
+		},
+		"code": "000"
+	},
+	"cheakUserByPhone": {
+		"data": {
+			"isGoogleVerify": "1"
+		},
+		"code": "000"
+	},
+	"sendSmsCode": {
+		"data": null,
+		"code": "000"
+	},
+	"verifySmsCode": {
+		"data": null,
+		"code": "000"
+	},
+	"getAutoSettingSale": {
+		"data": {
+			"saleCount": 2900,
+			"payType": "2",
+			"aliPayPrice": null,
+			"bankPayPrice": 6.99,
+			"status": "1"
+		},
+		"code": "000"
+	},
+	"autoSaleClose": {
+		"data": null,
+		"code": "000"
+	},
+	"autoBuyClose": {
+		"data": null,
+		"code": "000"
+	},
+	"matchSaleInfo": {
+		"data": {
+			"buyAmount": 50000,
+			"saleId": 263,
+			"price": 6.5,
+			"count": 1000,
+			"isMatch": true,
+			"receiveAccountId": null
+		},
+		"code": "000"
+	},
+	"matchBuyInfo": {
+		"data": {
+			"buyCount": 4433,
+			"buyAmount": 29036.15,
+			"price": 6.55,
+			"buyId": 257,
+			"isMatch": true
+		},
+		"code": "000"
+	},
+	"cancelOrder": {
+		"data": null,
+		"code": "001"
+	},
+	"goPay": {
+		"data": {
+			"realName": "花花",
+			"buyCount": 788,
+			"bankNum": "6968689626869923595",
+			"buyAmount": 5508.12,
+			"payType": "2",
+			"nickName": "BZ002188",
+			"tradeCode": "1000000787395669",
+			"bankName": "你自己",
+			"bankAddr": "心里"
+		},
+		"code": "000"
+	},
+	"paySuccess": {
+		"data": null,
+		"code": "000"
+	},
+	"getNoticeDetail": {
+		"data": {
+			"title": "版本更新通知",
+			"descVal": "关于4.22号版本更新通知",
+			"content": "<p>1. 开放100个一级代理放完截止！各级返佣15%，最高返佣三级45%！邀请赚钱！<br></p><p>2. 添加标本自动更新的功能</p>",
+			"createTime": "2021-04-25 19:19:40"
+		},
+		"code": "000"
+	},
+	"autoBuy": {
+		"data": null,
+		"code": "000"
+	},
+	"autoSale": {
+		"data": null,
+		"code": "000"
+	},
+	"walletRecharge": {
+		"data": {
+			"walletAddr": "0x74e35a5c480c1656de3dbc6fa3f1244889a63582",
+			"walletAddrQrUrl": "https://tool.oschina.net/action/qrcode/generate?data=%E6%88%91%E6%98%AF%E4%B8%80%E4%B8%AA%E4%BA%8C%E7%BB%B4%E7%A0%81&output=image%2Fjpeg&error=Q&type=0&margin=2&size=4"
+		},
+		"code": "000",
+		"errorMessage": "操作成功",
+		"success": true
+	},
+	"getMinRecharge": {
+		"data": "0.1",
+		"code": "000"
+	},
+	"walletData": {
+		"data": {
+			"tax": 20,
+			"taxType": 1,
+			"balanceMoney": 1131.862508,
+			"minTax": 0,
+			"maxTax": 0
+		},
+		"code": "000"
+	},
+	"queryWalletLogs": {
+		"data": {
+			"records": [{
+					"id": 639,
+					"uid": "c3f0f68a3225f6b17aedb493be4929f6",
+					"coinSymbol": "USDT",
+					"payCode": "1000001855164529",
+					"typeId": 33,
+					"inOut": 2,
+					"cost": 1010,
+					"remark": "USDT挂单出售",
+					"targetUid": null,
+					"createTime": "2021-05-08 19:23:08"
+				},
+				{
+					"id": 638,
+					"uid": "c3f0f68a3225f6b17aedb493be4929f6",
+					"coinSymbol": "USDT",
+					"payCode": "1000000544153573",
+					"typeId": 31,
+					"inOut": 1,
+					"cost": 787,
+					"remark": "USDT出售-订单取消退回",
+					"targetUid": null,
+					"createTime": "2021-05-08 19:18:00"
+				},
+				{
+					"id": 637,
+					"uid": "c3f0f68a3225f6b17aedb493be4929f6",
+					"coinSymbol": "USDT",
+					"payCode": "1000000176169685",
+					"typeId": 31,
+					"inOut": 2,
+					"cost": 787,
+					"remark": "USDT出售",
+					"targetUid": null,
+					"createTime": "2021-05-08 19:02:36"
+				},
+				{
+					"id": 636,
+					"uid": "c3f0f68a3225f6b17aedb493be4929f6",
+					"coinSymbol": "USDT",
+					"payCode": "1000000181123861",
+					"typeId": 33,
+					"inOut": 1,
+					"cost": 2122.01,
+					"remark": "USDT挂单出售关闭退回",
+					"targetUid": null,
+					"createTime": "2021-05-08 18:51:55"
+				},
+				{
+					"id": 631,
+					"uid": "c3f0f68a3225f6b17aedb493be4929f6",
+					"coinSymbol": "USDT",
+					"payCode": "1000000181123861",
+					"typeId": 33,
+					"inOut": 2,
+					"cost": 2929,
+					"remark": "USDT挂单出售",
+					"targetUid": null,
+					"createTime": "2021-05-07 23:29:52"
+				},
+				{
+					"id": 619,
+					"uid": "c3f0f68a3225f6b17aedb493be4929f6",
+					"coinSymbol": "USDT",
+					"payCode": "1000000636874775",
+					"typeId": 31,
+					"inOut": 1,
+					"cost": 701,
+					"remark": "USDT出售-订单取消退回",
+					"targetUid": null,
+					"createTime": "2021-05-03 00:38:57"
+				},
+				{
+					"id": 617,
+					"uid": "c3f0f68a3225f6b17aedb493be4929f6",
+					"coinSymbol": "USDT",
+					"payCode": "1000001228961195",
+					"typeId": 31,
+					"inOut": 2,
+					"cost": 701,
+					"remark": "USDT出售",
+					"targetUid": null,
+					"createTime": "2021-05-03 00:38:33"
+				},
+				{
+					"id": 615,
+					"uid": "c3f0f68a3225f6b17aedb493be4929f6",
+					"coinSymbol": "USDT",
+					"payCode": "1000001419787782",
+					"typeId": 33,
+					"inOut": 1,
+					"cost": 2929,
+					"remark": "USDT挂单出售关闭退回",
+					"targetUid": null,
+					"createTime": "2021-05-03 00:37:01"
+				},
+				{
+					"id": 613,
+					"uid": "c3f0f68a3225f6b17aedb493be4929f6",
+					"coinSymbol": "USDT",
+					"payCode": "1000001419787782",
+					"typeId": 33,
+					"inOut": 2,
+					"cost": 2929,
+					"remark": "USDT挂单出售",
+					"targetUid": null,
+					"createTime": "2021-05-03 00:18:15"
+				},
+				{
+					"id": 611,
+					"uid": "c3f0f68a3225f6b17aedb493be4929f6",
+					"coinSymbol": "USDT",
+					"payCode": "1000000824478901",
+					"typeId": 33,
+					"inOut": 1,
+					"cost": 2929,
+					"remark": "USDT挂单出售关闭退回",
+					"targetUid": null,
+					"createTime": "2021-05-03 00:17:21"
+				}
+			],
+			"total": 16,
+			"size": 10,
+			"current": 1,
+			"orders": [],
+			"searchCount": true,
+			"pages": 2
+		},
+		"code": "000"
+	}
+}

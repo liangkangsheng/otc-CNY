@@ -165,6 +165,14 @@ export function verifyEmailHttp(data) {
 	    }
 	});
 };
+export function verifyPhoneHttp(data) {
+	return http.post(`/center/verifyPhone`, {
+		data:data,
+	    header:{
+		  'user-token':GET_STORAGE('token'),
+	    }
+	});
+};
 export function sendEmailHttp(data) {
 	return http.get(`/center/sendEmail`, {
 		data:data,

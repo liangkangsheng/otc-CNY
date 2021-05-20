@@ -8,10 +8,27 @@
 			</view>
 			<view class="box-header option"><view class="head-title"></view></view>
 		</view>
-		<view class="forms-box">
+		
+		<view class="content">
+			<view class="scroll-h tabBars-header">
+				<view
+					v-for="(tab, index) in tabBars"
+					:key="tab.id"
+					class="uni-tab-item"
+					:class="tabIndex == index ? 'uni-tab-item-border-active' : ''"
+					:id="tab.id"
+					:data-current="index"
+					@click="ontabtap"
+				>
+					<text class="uni-tab-item-title" :class="tabIndex == index ? 'uni-tab-item-title-active' : ''">{{ tab.name }}</text>
+				</view>
+			</view>
+		</view>
+		
+		<view class="forms-box padding-30">
 			<view class="uni-padding-wrap uni-common-mt form-section">
 				<form @submit="formSubmit" @reset="formReset">
-					<view class="form-input form-tel">
+					<view v-if="tabIndex === 0" class="form-input form-tel">
 						<view class="tel-setect" :class="open ? 'uni-panel-h-on' : ''">
 							<text class="uni-panel-text">+86</text>
 							<uni-icons type="arrowdown" size="16" class="form-clear-icon"></uni-icons>
@@ -24,6 +41,17 @@
 								:placeholder="$t('registration.text1')"
 								placeholder-class="fomr-pla"
 								name="phoneAccount"
+							/>
+						</view>
+					</view>
+					<view v-if="tabIndex === 1" class="form-input">
+						<view class="con-form">
+							<input
+								type="text"
+								v-model="userRegistration.emailAccount"
+								:placeholder="$t('registration.text21')"
+								placeholder-class="fomr-pla"
+								name="emailAccount"
 							/>
 						</view>
 					</view>
@@ -112,11 +140,24 @@ export default {
 			},
 			userRegistration: {
 				phoneAccount: '', //手机号
+				emailAccount: '', // 邮箱
 				password: '', //密码
 				confirmPwd: '', //确认密码
 				verificationCode: '' ,//短信验证码
-				invitationCode:""
-			}
+				invitationCode:"",
+				nationCode: '86', // 手机区号
+				regType: '1' // 注册类型，默认手机注册； 1-手机 2-邮箱
+			},
+			tabBars: [
+				{
+					name: this.$t('registration.text19'),
+					id: '1'
+				},
+				{
+					name: this.$t('registration.text20'),
+					id: '2'
+				}
+			],
 		};
 	},
 	computed: {
@@ -177,91 +218,58 @@ export default {
 			}, 1000);
 		},
 		async getCode() {
+			let emailReg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 			let tel = /^1[34578]\d{9}$/;
 			let phoneTel = RegExp(tel).test(this.userRegistration.phoneAccount);
-			if (this.userRegistration.phoneAccount == '') {
-				uni.showToast({ title: this.$t('registration.text9'), icon: 'none' });
-			} else if (!phoneTel) {
-				uni.showToast({ title: this.$t('registration.text10'), icon: 'none' });
-			} else if (this.userRegistration.password == '') {
-				uni.showToast({ title: this.$t('registration.text11'), icon: 'none' });
-			} else if (this.userRegistration.confirmPwd == '') {
-				uni.showToast({ title: this.$t('registration.text12'), icon: 'none' });
-			} else if (this.userRegistration.confirmPwd != this.userRegistration.password) {
-				uni.showToast({ title: this.$t('registration.text13'), icon: 'none' });
-			} else {
-				// 发送验证码
-				uni.showLoading({ title: this.$t('registration.text013'), mask: true });
-				const system_info = GET_STORAGE('system_info');
-				let res = await api.Login({
-					phone: this.userRegistration.phoneAccount,
-					smsType: 1,
-					lang:system_info.language
-				});
-				if (res.code === '000') {
-					uni.hideLoading();
-					this.$alert(this.$t('registration.text014'));
-					this.countdownTime();
-				} else if(res.code === "500"){
-					uni.hideLoading();
-					this.$alert(this.$t('registration.text600'))
-				}  else {
-					uni.hideLoading();
-					uni.showToast({ title: res.errorMessage, icon: 'none' });
+			let email = RegExp(emailReg).test(this.userRegistration.emailAccount);
+			let flag = true;
+			if(this.userRegistration.regType === '1') {// 手机注册
+				if (this.userRegistration.phoneAccount == '') {
+					uni.showToast({ title: this.$t('registration.text9'), icon: 'none' });
+					flag = false;
+				} else if (!phoneTel) {
+					uni.showToast({ title: this.$t('registration.text10'), icon: 'none' });
+					flag = false;
 				}
-			}
-		},
-		async formSubmit(e) {
-			//进行表单检查
-			var formData = e.detail.value;
-			let tel = /^1[34578]\d{9}$/;
-			
-			let phone = RegExp(tel).test(formData.phoneAccount);
-			if (formData.phoneAccount == '') {
-				uni.showToast({ title: this.$t('registration.text9'), icon: 'none' });
-			} else if (!phone) {
-				uni.showToast({ title: this.$t('registration.text10'), icon: 'none' });
-			} else if (formData.password == '') {
-				uni.showToast({ title: this.$t('registration.text11'), icon: 'none' });
-			} else if (formData.confirmPwd == '') {
-				uni.showToast({ title: this.$t('registration.text12'), icon: 'none' });
-			} else if (formData.confirmPwd != formData.password) {
-				uni.showToast({ title: this.$t('registration.text13'), icon: 'none' });
-			} else if (formData.verificationCode == '') {
-				uni.showToast({ title: this.$t('registration.text14'), icon: 'none' });
-			}  else if (formData.invitationCode == '') {
-				uni.showToast({ title: this.$t('registration.text015'), icon: 'none' });
-			} else if (formData.checkbox == '') {
-				uni.showToast({ title: this.$t('registration.text15'), icon: 'none' });
-			} else {
-				uni.showLoading({ title: this.$t('registration.text16'), mask: true });
-				const system_info = GET_STORAGE('system_info');
-				let res = await api.userRegistration({
-					phoneAccount: formData.phoneAccount, //手机号
-					password: md5(formData.password), //密码
-					confirmPwd: md5(formData.confirmPwd), //确认密码
-					verificationCode: formData.verificationCode ,//短信验证码
-					lang:system_info.language,
-					invitationCode:formData.invitationCode
-				});
-				if (res.code === '000') {
-					
-					let res = await api.verifySmsCodeHttp({
-						smsType: "1",
-						phone:formData.phoneAccount,
-						verificationCode: formData.verificationCode,
-						lang:system_info.language,
-					});
+			} else if(this.userRegistration.regType === '2') {// 邮箱注册
+				if (this.userRegistration.emailAccount == '') {
+					uni.showToast({ title: this.$t('registration.text21'), icon: 'none' });
+					flag = false;
+				} else if (!email) {
+					uni.showToast({ title: this.$t('registration.text22'), icon: 'none' });
+					flag = false;
+				}
+			} 
+			if(flag) {
+				if (this.userRegistration.password == '') {
+					uni.showToast({ title: this.$t('registration.text11'), icon: 'none' });
+				} else if (this.userRegistration.confirmPwd == '') {
+					uni.showToast({ title: this.$t('registration.text12'), icon: 'none' });
+				} else if (this.userRegistration.confirmPwd != this.userRegistration.password) {
+					uni.showToast({ title: this.$t('registration.text13'), icon: 'none' });
+				} else {
+					// 发送验证码
+					uni.showLoading({ title: this.$t('registration.text013'), mask: true });
+					const system_info = GET_STORAGE('system_info');
+					let res = null;
+					if(this.userRegistration.regType === '1') {// 手机注册
+						res = await api.sendSmsCode({
+							phone: this.userRegistration.phoneAccount,
+							nationCode: this.userRegistration.nationCode,
+							smsType: 1,
+							lang:system_info.language
+						});
+					} else if(this.userRegistration.regType === '2') {// 邮箱注册
+						res = await api.sendEmailCode({
+							email: this.userRegistration.emailAccount,
+							smsType: 1,
+							lang:system_info.language
+						});
+					}
 					if (res.code === '000') {
 						uni.hideLoading();
-						uni.showToast({ title: this.$t('registration.text17'), icon: 'none' });
-						setTimeout(() => {
-							uni.reLaunch({
-								url: '/pages/loginReg/login'
-							});
-						}, 1000);
-						this.countdown.countTitle = this.$t('registration.text06');
-						clearInterval(this.countdown.loginTimer);
+						this.$alert(this.$t('registration.text014'));
+						this.countdownTime();
 					} else if(res.code === "500"){
 						uni.hideLoading();
 						this.$alert(this.$t('registration.text600'))
@@ -269,12 +277,101 @@ export default {
 						uni.hideLoading();
 						uni.showToast({ title: res.errorMessage, icon: 'none' });
 					}
-				} else if(res.code === "500"){
-					uni.hideLoading();
-					this.$alert(this.$t('registration.text600'))
-				}  else {
-					uni.hideLoading();
-					uni.showToast({ title: res.errorMessage, icon: 'none' });
+				}
+			}
+		},
+		async formSubmit(e) {
+			//进行表单检查
+			let emailReg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+			let tel = /^1[34578]\d{9}$/;
+			var formData = e.detail.value;
+			let phone = RegExp(tel).test(formData.phoneAccount);
+			let email = RegExp(emailReg).test(formData.emailAccount);
+			let flag = true;
+			if(this.userRegistration.regType === '1') {// 手机注册
+				if (formData.phoneAccount == '') {
+					uni.showToast({ title: this.$t('registration.text9'), icon: 'none' });
+					flag = false;
+				} else if (!phone) {
+					uni.showToast({ title: this.$t('registration.text10'), icon: 'none' });
+					flag = false;
+				}
+			} else if(this.userRegistration.regType === '2') {// 邮箱注册
+				if (formData.emailAccount == '') {
+					uni.showToast({ title: this.$t('registration.text21'), icon: 'none' });
+					flag = false;
+				} else if (!email) {
+					uni.showToast({ title: this.$t('registration.text22'), icon: 'none' });
+					flag = false;
+				}
+			} 
+			if(flag) {
+				if (formData.password == '') {
+					uni.showToast({ title: this.$t('registration.text11'), icon: 'none' });
+				} else if (formData.confirmPwd == '') {
+					uni.showToast({ title: this.$t('registration.text12'), icon: 'none' });
+				} else if (formData.confirmPwd != formData.password) {
+					uni.showToast({ title: this.$t('registration.text13'), icon: 'none' });
+				} else if (formData.verificationCode == '') {
+					uni.showToast({ title: this.$t('registration.text14'), icon: 'none' });
+				}  else if (formData.invitationCode == '') {
+					uni.showToast({ title: this.$t('registration.text015'), icon: 'none' });
+				} else if (formData.checkbox == '') {
+					uni.showToast({ title: this.$t('registration.text15'), icon: 'none' });
+				} else {
+					uni.showLoading({ title: this.$t('registration.text16'), mask: true });
+					const system_info = GET_STORAGE('system_info');
+					let res = await api.userRegistration({
+						phoneAccount: formData.phoneAccount, //手机号
+						emailAccount: formData.emailAccount, // 邮箱
+						nationCode: this.userRegistration.nationCode, // 手机区号
+						regType: this.userRegistration.regType, // 注册类型
+						password: md5(formData.password), //密码
+						confirmPwd: md5(formData.confirmPwd), //确认密码
+						verificationCode: formData.verificationCode ,//短信验证码
+						lang:system_info.language,
+						invitationCode:formData.invitationCode
+					});
+					if (res.code === '000') {
+						if(this.userRegistration.regType === '1') {// 手机注册
+							res = await api.verifySmsCodeHttp({
+								smsType: "1",
+								phone:formData.phoneAccount,
+								verificationCode: formData.verificationCode,
+								lang:system_info.language,
+							});
+						} else if(this.userRegistration.regType === '2') {// 邮箱注册
+							res = await api.verifyEmailCodeHttp({
+								smsType: "1",
+								email:formData.emailAccount,
+								verificationCode: formData.verificationCode,
+								lang:system_info.language,
+							});
+						}
+						if (res.code === '000') {
+							uni.hideLoading();
+							uni.showToast({ title: this.$t('registration.text17'), icon: 'none' });
+							setTimeout(() => {
+								uni.reLaunch({
+									url: '/pages/loginReg/login'
+								});
+							}, 1000);
+							this.countdown.countTitle = this.$t('registration.text06');
+							clearInterval(this.countdown.loginTimer);
+						} else if(res.code === "500"){
+							uni.hideLoading();
+							this.$alert(this.$t('registration.text600'))
+						}  else {
+							uni.hideLoading();
+							uni.showToast({ title: res.errorMessage, icon: 'none' });
+						}
+					} else if(res.code === "500"){
+						uni.hideLoading();
+						this.$alert(this.$t('registration.text600'))
+					}  else {
+						uni.hideLoading();
+						uni.showToast({ title: res.errorMessage, icon: 'none' });
+					}
 				}
 			}
 		},
@@ -290,7 +387,15 @@ export default {
 					url: '/pages/home/index'
 				});
 			}, 1000);
-		}
+		},
+		ontabtap(e) {
+			let index = e.target.dataset.current || e.currentTarget.dataset.current;
+			if (this.tabIndex === index) {
+				return;
+			}
+			this.tabIndex = index;
+			this.userRegistration.regType = "" + (index + 1);
+		},
 	}
 };
 </script>
@@ -393,5 +498,47 @@ page {
 .form-input {
 	border: none;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.scroll-h {
+	width: 100%;
+	height: 80rpx;
+	flex-direction: row;
+	/* #ifndef APP-PLUS */
+	white-space: nowrap;
+	/* #endif */
+	.scroll-tabs {
+		width: 40%;
+		float: left;
+	}
+}
+.uni-tab-item {
+	/* #ifndef APP-PLUS */
+	display: inline-block;
+	/* #endif */
+	flex-wrap: nowrap;
+	width: 50%;
+	float: left;
+	text-align: center;
+	padding-left: 34rpx;
+	padding-right: 34rpx;
+	border-bottom: 2px solid #dddddd;
+}
+.uni-tab-item-title {
+	color: #555;
+	font-size: 30rpx;
+	height: 80rpx;
+	line-height: 80rpx;
+	flex-wrap: nowrap;
+	/* #ifndef APP-PLUS */
+	white-space: nowrap;
+	/* #endif */
+}
+
+.uni-tab-item-border-active {
+	border-bottom: 2px solid #06b572;
+}
+
+.uni-tab-item-title-active {
+	color: #06b572 !important;
 }
 </style>

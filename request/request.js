@@ -6,7 +6,7 @@ import {
 	TOAST
 } from '@/common/globalConfig.js'
 import store from '@/store/index.js'
-
+import mock from '@/data/data.json'
 class Request {
 	constructor(config = {}) {
 		this.config = {};
@@ -62,47 +62,8 @@ class Request {
 		let fullUrl = this._formatUrl(lastConfig.baseUrl, url);
 
 		return new Promise((resolve, reject) => {
-			uni.request({
-				url: fullUrl,
-				method,
-				data: lastConfig.data ? lastConfig.data : {},
-				header: lastConfig.header,
-				dataType: lastConfig.dataType,
-				responseType: lastConfig.responseType,
-				async complete(response) {
-					let res = response;
-					// //token失效
-					if (res.data.code == "002" || res.data.code == "004" || res.data.code == "007") {
-						store.dispatch('common/logoOutAction')
-						setTimeout(() => {
-							TOAST(res.data.errorMessage || '用户Token失效！')
-							uni.reLaunch({
-								url:"/pages/loginReg/login"
-							})
-						}, 500)
-						
-						return
-					}
-
-					if (_this.resInterceptors && typeof _this.resInterceptors === 'function') {
-						let resInterceptors = _this.resInterceptors(res);
-						if (!resInterceptors) {
-							reject('返回值已被您拦截！');
-							return;
-						} else if (Object.prototype.toString.call(resInterceptors) === "[object Promise]") {
-							try {
-								let promiseRes = await resInterceptors;
-								resolve(promiseRes.data)
-							} catch (error) {
-								reject(error)
-							}
-						} else {
-							res = resInterceptors;
-						}
-					}
-					resolve(res.data);
-				}
-			});
+			let name = _this._getApiName(fullUrl); // 请求拦截
+			resolve(mock[name]);
 		})
 	}
 	_formatUrl(baseUrl, url) {
@@ -148,6 +109,11 @@ class Request {
 			}
 		}
 		return result;
+	}
+	_getApiName(url) {
+		let urls = url.split("/");
+		let last = urls[urls.length - 1].split("?")[0];
+		return last;
 	}
 }
 

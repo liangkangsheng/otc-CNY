@@ -49,15 +49,10 @@ export default {
 	data() {
 		return {
 			id: '',
-			// 新增
 			tabBarPay: [
 				{
 					name: 'ERC20',
 					id: '1'
-				},
-				{
-					name: 'TRC20',
-					id: '2'
 				}
 			],
 			tabIndexPay: 1,
@@ -91,7 +86,6 @@ export default {
 		}, 300);
 	},
 	methods: {
-		// 充值提现
 		async getMinRechargeFunction(){
 			let res = await api.getMinRechargeHttp({
 
@@ -124,15 +118,13 @@ export default {
 			}
 			this.tabIndexPay = index;
 			this.tabsOpenPay = !this.tabsOpenPay;
-			this.walletRechargeFunctuion()
 		},
 		async walletRechargeFunctuion() {
 			uni.showLoading({ title: this.$t('Topup.text8'), mask: true });
 
 			const system_info = GET_STORAGE('system_info');
 			let res = await api.walletRechargeHttp({
-				lang: system_info.language,
-				trocotol:this.tabIndexPay == 1?"ERC20":"TRC20"
+				lang: system_info.language
 			});
 			if (res.code === '000') {
 				uni.hideLoading();

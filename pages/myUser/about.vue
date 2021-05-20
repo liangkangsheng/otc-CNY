@@ -10,7 +10,7 @@
 		</view>
 		<view class="content">
 			<image src="../../common/logo/logo.png" mode="" class="logo-img"></image>
-			<p class="app-Name">GOLDOTC</p>
+			<p class="app-Name">mayibet</p>
 			<p class="app-version">{{ i18n.text2 }} : {{versionNames || i18n.text3 }}</p>
 			<view class="wallet-boxs height">
 				
@@ -133,6 +133,7 @@ export default {
 			});
 		},
 		updateContentButton(){
+			console.log(this.versionNo)
 			if(this.versionNo > plus.runtime.versionCode){
 				this.toggleMessage('success')
 			}else{

@@ -8,16 +8,29 @@
 			</view>
 			<view class="box-header option"><view class="head-title"></view></view>
 		</view>
+		<view class="radio-group-list">
+			<radio-group @change="radioChange">
+				<label class="radio" v-for="(item, index) in items" :key="item.value">
+					<radio :value="item.value" :checked="index === current" />
+					{{item.name}}
+				</label>
+			</radio-group>
+		</view>
 		<view class="forms-box padding-30">
 			<view class="uni-padding-wrap uni-common-mt form-section" :current="tabIndex" v-show="!tabsOpen">
-				<form @submit="formSubmit" @reset="formReset">
-					<view class="form-input form-tel">
+				<form @submit="formSubmit">
+					<view v-if="current == 0" class="form-input form-tel">
 						<view class="tel-setect" :class="open ? 'uni-panel-h-on' : ''">
 							<text class="uni-panel-text">+86</text>
 							<uni-icons type="arrowdown" size="16" class="form-clear-icon"></uni-icons>
 						</view>
 						<view class="con-form">
 							<input type="number" maxlength="11" v-model="phoneAccount" :placeholder="$t('loginReg.text1')" placeholder-class="fomr-pla" name="tel" />
+						</view>
+					</view>
+					<view v-if="current == 1" class="form-input">
+						<view class="con-form">
+							<input type="text" v-model="emailAccount" :placeholder="$t('loginReg.text11')" placeholder-class="fomr-pla" name="email" />
 						</view>
 					</view>
 					<view class="form-input">
@@ -42,6 +55,7 @@ export default {
 	data() {
 		return {
 			phoneAccount: '',
+			emailAccount: '',
 			code: '',
 			password: '',
 			togglePwd: false,
@@ -55,7 +69,15 @@ export default {
 			},
 			codeLogin: {
 				phone: ''
-			}
+			},
+			items: [{
+				value: '0',
+				name: this.$t('loginReg.text9')
+			},{
+				value: '1',
+				name: this.$t('loginReg.text10')
+			}],
+			current: 0
 		};
 	},
 	computed: {
@@ -74,7 +96,7 @@ export default {
 	methods: {
 		goHome(){
 			uni.reLaunch({
-				url: '/pages/home/index'
+				url: '/pages/home/home'
 			});
 		},
 		navBack() {
@@ -100,7 +122,7 @@ export default {
 			}, 1000);
 		},
 		async getCode() {
-			let tel = /^1[34578]\d{9}$/;
+			let tel = /^1[345789]\d{9}$/;
 			let phoneTel = RegExp(tel).test(this.codeLogin.phone);
 			if (this.codeLogin.phone == '') {
 				uni.showToast({ title: this.$t('loginReg.text5'), icon: 'none' });
@@ -108,8 +130,9 @@ export default {
 				uni.showToast({ title: this.$t('loginReg.text6'), icon: 'none' });
 			} else {
 				const system_info = GET_STORAGE('system_info');
-				let res = await api.Login({
+				let res = await api.sendSmsCode({
 					phone: this.codeLogin.phone,
+					nationCode: '86',
 					smsType: 0,
 					lang:system_info.language,
 				});
@@ -125,51 +148,80 @@ export default {
 		},
 		async formSubmit(e) {
 			var formData = e.detail.value;
-			let tel = /^1[34578]\d{9}$/;
+			let tel = /^1[345789]\d{9}$/;
+			let emailReg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 			let phone = RegExp(tel).test(formData.tel);
-
-			if (formData.tel == '') {
-				uni.showToast({ title: this.$t('loginReg.text5'), icon: 'none' });
-			} else if (!phone) {
-				uni.showToast({ title: this.$t('loginReg.text6'), icon: 'none' });
-			} else if (formData.password == '') {
-				uni.showToast({ title: this.$t('loginReg.text7'), icon: 'none' });
-			} else {
-				uni.showLoading({ title: this.$t('loginReg.text8'), mask: true });
-				const system_info = GET_STORAGE('system_info');
-				let res = await api.cheakUserHttp({
-					loginType: '2',
-					lang:system_info.language,
-					phoneAccount: formData.tel,
-					passWord: md5(formData.password)
-				});
-				if (res.code === '000') {
-					uni.hideLoading();
-					SET_STORAGE('phoneAccount',formData.tel);
-					setTimeout(() => {
-						uni.navigateTo({
-							url: '/pages/verificationCode/verificationCode?tel=' + formData.tel
-						});
-					}, 1000);
-					if(res.data.isGoogleVerify == "0"){
-						setTimeout(() => {
-							uni.navigateTo({
-								url: '/pages/verificationCode/verificationCode?tel=' + formData.tel
-							});
-						}, 1000);
-					}else{
-						setTimeout(() => {
-							uni.navigateTo({
-								url: '/pages/verificationCode/verificationCodeg?tel=' + formData.tel
-							});
-						}, 1000);
-					}
-				} else if(res.code === "500"){
-					uni.hideLoading();
-					this.$alert(this.$t('loginReg.text600'))
+			let email = RegExp(emailReg).test(formData.email);
+			let flag = true;
+			if(this.current == 0) {
+				if (formData.tel == '') {
+					uni.showToast({ title: this.$t('loginReg.text5'), icon: 'none' });
+					flag = false;
+				} else if (!phone) {
+					uni.showToast({ title: this.$t('loginReg.text6'), icon: 'none' });
+					flag = false;
+				}
+			} else if (this.current == 1) {
+				if (formData.email == '') {
+					uni.showToast({ title: this.$t('loginReg.text12'), icon: 'none' });
+					flag = false;
+				} else if (!email) {
+					uni.showToast({ title: this.$t('loginReg.text13'), icon: 'none' });
+					flag = false;
+				}
+			} 
+			if(flag) {
+				if (formData.password == '') {
+					uni.showToast({ title: this.$t('loginReg.text7'), icon: 'none' });
 				} else {
-					uni.hideLoading();
-					uni.showToast({ title: res.errorMessage, icon: 'none' });
+					uni.showLoading({ title: this.$t('loginReg.text8'), mask: true });
+					const system_info = GET_STORAGE('system_info');
+					console.log(system_info)
+					let res = null;
+					if(this.current == 0) {
+						res = await api.cheakUserHttp({
+							loginType: '2',
+							lang:system_info.language,
+							phoneAccount: formData.tel,
+							passWord: md5(formData.password)
+						});
+					} else if (this.current == 1) {
+						res = await api.cheakUserByEmail({
+							loginType: '2',
+							lang:system_info.language,
+							emailAccount: formData.email,
+							passWord: md5(formData.password)
+						});
+					}
+					if (res.code === '000') {
+						uni.hideLoading();
+						SET_STORAGE('phoneAccount',formData.tel);
+						SET_STORAGE('emailAccount',formData.email);
+						setTimeout(() => {
+							uni.navigateTo({
+								url: '/pages/verificationCode/verificationCode?tel=' + formData.tel + "&email=" + formData.email + "&type=" + this.current
+							});
+						}, 1000);
+						if(res.data.isGoogleVerify == "0"){
+							setTimeout(() => {
+								uni.navigateTo({
+									url: '/pages/verificationCode/verificationCode?tel=' + formData.tel + "&email=" + formData.email + "&type=" + this.current
+								});
+							}, 1000);
+						}else{
+							setTimeout(() => {
+								uni.navigateTo({
+									url: '/pages/verificationCode/verificationCodeg?tel=' + formData.tel + "&email=" + formData.email + "&type=" + this.current
+								});
+							}, 1000);
+						}
+					} else if(res.code === "500"){
+						uni.hideLoading();
+						this.$alert(this.$t('loginReg.text600'))
+					} else {
+						uni.hideLoading();
+						uni.showToast({ title: res.errorMessage, icon: 'none' });
+					}
 				}
 			}
 		},
@@ -190,6 +242,10 @@ export default {
 		},
 		togglePrssWordType() {
 			this.togglePwd = !this.togglePwd;
+		},
+		radioChange(evt) {
+			this.current = evt.target.value;
+			console.log(this.current)
 		}
 	}
 };
@@ -257,5 +313,15 @@ page {
 .form-input {
 	border: none;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.radio-group-list {
+	text-align: center;
+	margin-top: 60rpx;
+	.uni-label-pointer:first-child {
+		margin-right: 50rpx;
+	}
+	.uni-label-pointer:last-child {
+		margin-left: 50rpx;
+	}
 }
 </style>

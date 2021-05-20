@@ -13,8 +13,14 @@
 				<image src="../../static/icon/help_icon1.png" mode="" class="user-img"></image>
 				<view class="userName-box" @click="linkButtons">
 					<view class="name-box" @click="linkButtons">
-						<text class="name-text" @click="linkButtons">{{ getUserInfoData.phoneAccount }}</text>
-						<text class="name-dj" @click="linkButtons">Lv.{{ getUserInfoData.userLevel || 0}}( {{i18n.text100}}:{{ getUserInfoData.distributionLevel || 0}} )</text>
+						<text v-if="getUserInfoData.regType == '1'" class="name-text" @click="linkButtons">{{ getUserInfoData.phoneAccount }}</text>
+						<text v-if="getUserInfoData.regType == '2'" class="name-text" @click="linkButtons">{{ getUserInfoData.emailAccount }}</text>
+						<!-- <text class="name-dj" @click="linkButtons">Lv.{{ getUserInfoData.userLevel || 0}}( {{i18n.text100}}:{{ getUserInfoData.distributionLevel || 0}} )</text> -->
+						<text class="name-dj" @click="linkButtons" v-if="getUserInfoData.distributionLevel == 1">( {{i18n.text106}} )</text>
+						<text class="name-dj" @click="linkButtons" v-else-if="getUserInfoData.distributionLevel == 2">( {{i18n.text105}} )</text>
+						<text class="name-dj" @click="linkButtons" v-else-if="getUserInfoData.distributionLevel == 3">( {{i18n.text104}} )</text>
+						<text class="name-dj" @click="linkButtons" v-else-if="getUserInfoData.distributionLevel == 4">( {{i18n.text103}} )</text>
+						<text class="name-dj" @click="linkButtons" v-else>( {{ i18n.text103 }} )</text>
 					</view>
 					<view class="title-user" @click="linkButtons">{{ getUserInfoData.nickName }}</view>
 				</view>
@@ -84,6 +90,11 @@
 					<text class="text-sizeS" v-else-if="getMargin.status == 4">{{ i18n.text120 }}</text>
 					<text class="text-sizeS" v-else-if="getMargin.status == 3">{{ i18n.text18 }}</text>
 					<text class="text-sizeS" v-else>{{ i18n.text18 }}</text>
+				</view>
+				<view class="wallet-box-list height" @click="linkButtonOnlineService">
+					<uni-icons type="headphones" size="18" class="form-clear-icon"style="float: left;"></uni-icons>
+					<view class="text-size" style="width: 58%;float: left;">{{ i18n.text102 }}</view>
+					<uni-icons type="arrowright" size="16" class="form-clear-icon arrowright"></uni-icons>
 				</view>
 				<view class="wallet-box-list height" @click="linkButtonGgs">
 					<uni-icons type="circle-filled" size="18" class="form-clear-icon"style="float: left;"></uni-icons>
@@ -337,12 +348,17 @@ export default {
 				});
 			}
 		},
+		linkButtonOnlineService() {
+			uni.navigateTo({
+				url: '/hybrid/html/service'
+			});
+		},
 		allFunction() {
 			this.getUserInfoFunction();
-			this.getRealNameInfoFunction();
-			this.getMyAssetsItemFunction();
-			this.getOrganVerifyInfoFunction();
-			this.getMarginFunction();
+			// this.getRealNameInfoFunction();
+			// this.getMyAssetsItemFunction();
+			// this.getOrganVerifyInfoFunction();
+			// this.getMarginFunction();
 		},
 		eyeButton() {
 			this.eye = !this.eye;
@@ -360,10 +376,10 @@ export default {
 				}
 			} else if (res.code === '500') {
 				uni.hideLoading();
-				this.$alert(this.$t('myUser.text600'));
+				//this.$alert(this.$t('myUser.text600'));
 			} else {
 				uni.hideLoading();
-				this.$alert(res.errorMessage);
+				//this.$alert(res.errorMessage);
 			}
 		},
 		async getOrganVerifyInfoFunction() {
@@ -376,10 +392,10 @@ export default {
 				}
 			} else if (res.code === '500') {
 				uni.hideLoading();
-				this.$alert(this.$t('myUser.text600'));
+				//this.$alert(this.$t('myUser.text600'));
 			} else {
 				uni.hideLoading();
-				uni.showToast({ title: res.errorMessage, icon: 'none' });
+				//uni.showToast({ title: res.errorMessage, icon: 'none' });
 			}
 		},
 		async getMyAssetsItemFunction() {
@@ -392,10 +408,10 @@ export default {
 				this.coinSymboldata = res.data;
 			} else if (res.code === '500') {
 				uni.hideLoading();
-				this.$alert(this.$t('myUser.text600'));
+				//this.$alert(this.$t('myUser.text600'));
 			} else {
 				uni.hideLoading();
-				uni.showToast({ title: res.errorMessage, icon: 'none' });
+				//uni.showToast({ title: res.errorMessage, icon: 'none' });
 			}
 		},
 		async getRealNameInfoFunction() {
@@ -408,10 +424,10 @@ export default {
 				}
 			} else if (res.code === '500') {
 				uni.hideLoading();
-				this.$alert(this.$t('myUser.text600'));
+				//this.$alert(this.$t('myUser.text600'));
 			} else {
 				uni.hideLoading();
-				uni.showToast({ title: res.errorMessage, icon: 'none' });
+				//uni.showToast({ title: res.errorMessage, icon: 'none' });
 			}
 		},
 		async getUserInfoFunction() {
@@ -420,11 +436,17 @@ export default {
 			if (res.code === '000') {
 				uni.hideLoading();
 				this.getUserInfoData = res.data;
-				SET_STORAGE('phone', res.data.phoneAccount);
-				SET_STORAGE('email', res.data.emailAddress);
+				SET_STORAGE('phone', res.data.phoneAccount || "");
+				SET_STORAGE('email', res.data.emailAccount || "");
+				SET_STORAGE('regType', res.data.regType);
+				this.getRealNameInfoFunction();
+				this.getMyAssetsItemFunction();
+				this.getOrganVerifyInfoFunction();
+				this.getMarginFunction();
+				
 			} else if (res.code === '500') {
 				uni.hideLoading();
-				this.$alert(this.$t('myUser.text600'));
+				//this.$alert(this.$t('myUser.text600'));
 			} else {
 				uni.hideLoading();
 				uni.showToast({ title: res.errorMessage, icon: 'none' });
@@ -437,10 +459,6 @@ export default {
 				});
 			}
 			if (id == '2') {
-				if (this.getRealNameInfo.status != 2) {
-					this.$alert(this.$t('myUser.text22'));
-					return;
-				}
 				uni.navigateTo({
 					url: '/pages/TopupWithdrawal/TopupWithdrawal?id=' + id
 				});
@@ -457,17 +475,17 @@ export default {
 		},
 		linkButtonSM() {
 			uni.navigateTo({
-				url: '/pages/myUser/RealName?stauts=' + this.getRealNameInfo.status
+				url: '/pages/myUser/RealName?stauts=' + this.getRealNameInfo.status + "&regType=" + this.getUserInfoData.regType
 			});
 		},
 		linkButtonz() {
 			uni.navigateTo({
-				url: '/pages/myUser/userAccount?isPayPwd=' + this.getUserInfoData.isPayPwd
+				url: '/pages/myUser/userAccount?isPayPwd=' + this.getUserInfoData.isPayPwd + "&regType=" + this.getUserInfoData.regType
 			});
 		},
 		linkButtonJG() {
 			uni.navigateTo({
-				url: '/pages/myUser/Accredited?stauts=' + this.getOrganVerifyInfo.status
+				url: '/pages/myUser/Accredited?stauts=' + this.getOrganVerifyInfo.status + "&regType=" + this.getUserInfoData.regType
 			});
 		},
 		linkButton() {
@@ -476,14 +494,20 @@ export default {
 			});
 		},
 		linkButtons() {
+			let regType = this.getUserInfoData.regType;
+			let account = "";
+			if(regType == '1'){
+				account = this.getUserInfoData.phoneAccount;
+			}else{
+				account = this.getUserInfoData.emailAccount;
+			}
 			uni.navigateTo({
 				url:
 					'/pages/myUser/levelThe?userLevel=' +
 					this.getUserInfoData.userLevel +
 					'&realName=' +
 					this.getRealNameInfo.realName +
-					'&phone=' +
-					this.getUserInfoData.phoneAccount
+					'&account=' + account
 			});
 		},
 		linkButtonb() {
